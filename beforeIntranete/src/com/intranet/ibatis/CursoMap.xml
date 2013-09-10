@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="curso">
+
+	<select id="buscarCursos" parameterType="com.intranet.bean.Usuario"
+		resultType="com.intranet.bean.Curso">
+		SELECT c.*
+		FROM detalle_alumnoinscripcion dai join
+		inscripcion i
+		on dai.idinscripcion=i.idinscripcion join periodo p
+		on
+		i.idperiodo= p.idperiodo join detalle_inscricurso dic
+		on
+		i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on
+		dic.idcursoseccion=dcs.idcursoseccion join curso c
+		on
+		dcs.idcurso=c.idcurso
+		where dai.idalumno=(select alum.idalumno from
+		usuario u join alumno alum
+		on u.idusuario=alum.idusuario where u.idusuario=#{idUsuario})
+		and p.idperiodo=(select idperiodo from periodo order by idperiodo desc
+		limit 1);
+	</select>
+
+	<select id="buscarCursoBean" parameterType="com.intranet.bean.Curso"
+		resultType="com.intranet.bean.Curso">
+		SELECT c.*
+		FROM curso c
+		WHERE c.idcurso=#{idCurso}
+	</select>
+
+	<select id="ib_CursoDelAlumnoDelSemestre" parameterType="com.intranet.bean.Inscripcion"
+		resultType="com.intranet.bean.Detalle_cursoSeccion">
+		SELECT dcs.*
+		FROM inscripcion i join periodo p
+		on i.idperiodo= p.idperiodo join detalle_inscricurso dic
+		on i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on dic.idcursoseccion=dcs.idcursoseccion join curso c
+		on dcs.idcurso=c.idcurso
+		where i.idinscripcion=#{idInscripcion}
+		and p.idperiodo=(select idperiodo from periodo order by idperiodo desc
+		limit 1);
+	</select>
+
+	<select id="ib_buscarCantidadDeCursosDelAlumno" parameterType="com.intranet.bean.Inscripcion"
+		resultType="int">
+		SELECT count(c.idcurso)'cantCursos'
+		FROM inscripcion i join periodo p
+		on i.idperiodo= p.idperiodo join detalle_inscricurso dic
+		on i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on dic.idcursoseccion=dcs.idcursoseccion join curso c
+		on dcs.idcurso=c.idcurso
+		where i.idinscripcion=#{idInscripcion}
+		and p.idperiodo=(select idperiodo from periodo order by idperiodo desc
+		limit 1);
+
+	</select>
+
+</mapper>

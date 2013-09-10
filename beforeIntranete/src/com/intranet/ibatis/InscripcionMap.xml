@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inscripcion">
+
+	<select id="buscarCursosAnteriores" parameterType="com.intranet.bean.Usuario"
+		resultType="com.intranet.bean.Curso">
+		SELECT c.*
+		FROM alumno alu join detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo= p.idperiodo join detalle_inscricurso dic
+		on i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on dic.idcursoseccion=dcs.idcursoseccion join curso c
+		on dcs.idcurso=c.idcurso join carrera car
+		on alu.idcarrera=car.idcarrera join detalle_cursocarrera dcc
+		on car.idcarrera=dcc.idcarrera and i.idciclo=dcc.idciclo and
+		c.idcurso=dcc.idcurso
+		where alu.idusuario=#{idUsuario} and p.idperiodo=(select idperiodo from
+		periodo order by idperiodo desc limit 1)-1
+		and 12.5>dic.promedio_c
+		group by c.idcurso;
+	</select>
+
+	<select id="buscarCursosAnteriores2" parameterType="com.intranet.bean.Usuario"
+		resultType="com.intranet.bean.Curso">
+		select c.*
+		from detalle_cursocarrera dcc join curso c
+		on dcc.idcurso=c.idcurso
+		where dcc.idcarrera=(select alum.idcarrera from alumno alum where
+		alum.idusuario=#{idUsuario}) and dcc.idciclo=(SELECT i.idciclo
+		FROM
+		alumno alu join detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo
+		where alu.idusuario=#{idUsuario} and p.idperiodo=(select idperiodo from
+		periodo order by idperiodo desc limit 1)-1)
+		and dcc.idcurso not in (SELECT dcs.idcurso
+		FROM alumno alu join detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo join detalle_inscricurso dic
+		on
+		i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on
+		dic.idcursoseccion=dcs.idcursoseccion
+		where alu.idusuario=#{idUsuario}
+		and p.idperiodo=(select idperiodo from periodo order by idperiodo desc
+		limit 1)-1)
+		and not exists (SELECT dcs.idcurso
+		FROM alumno alu join detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo join detalle_inscricurso dic
+		on
+		i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on
+		dic.idcursoseccion=dcs.idcursoseccion
+		where alu.idusuario=#{idUsuario}
+		and p.idperiodo=(select idperiodo from periodo order by idperiodo desc
+		limit 1)-1 and i.repitio=1)
+	</select>
+
+	<select id="buscarCursosActuales" parameterType="com.intranet.bean.Usuario"
+		resultType="com.intranet.bean.Curso">
+		select c.*
+		from detalle_cursocarrera dcc join curso c
+		on dcc.idcurso=c.idcurso join tipocurso ct
+		on c.idtipocurso=ct.idtipocurso
+		where dcc.idcarrera=(select alum.idcarrera from alumno alum where
+		alum.idusuario=#{idUsuario})
+		and dcc.idciclo=(SELECT i.idciclo
+		FROM alumno alu join
+		detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo
+		where alu.idusuario=#{idUsuario} and p.idperiodo=(select idperiodo from
+		periodo order by idperiodo desc limit 1)-1)+1
+		and ct.idtipocurso not in (SELECT c.idtipocurso
+		FROM alumno alu join
+		detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo join detalle_inscricurso dic
+		on
+		i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on
+		dic.idcursoseccion=dcs.idcursoseccion join curso c
+		on
+		dcs.idcurso=c.idcurso
+		where alu.idusuario=(SELECT alu.idusuario FROM alumno alu WHERE
+		alu.idusuario=#{idUsuario}) and p.idperiodo=(select idperiodo from
+		periodo order by idperiodo desc limit 1)-1
+		and 12.5>dic.promedio_c)
+		and c.idcurso not in (select c.idcurso
+		from detalle_cursocarrera dcc join
+		curso c
+		on dcc.idcurso=c.idcurso join tipocurso ct
+		on
+		c.idtipocurso=ct.idtipocurso
+		where dcc.idcarrera=(select alum.idcarrera
+		from alumno alum where alum.idusuario=#{idUsuario}) and
+		dcc.idciclo=(SELECT i.idciclo
+		FROM alumno alu join
+		detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo
+		where alu.idusuario=#{idUsuario} and p.idperiodo=(select idperiodo from
+		periodo order by idperiodo desc limit 1)-1)+1
+		and c.idcurso in (SELECT
+		c.idcurso
+		FROM alumno alu join detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo join detalle_inscricurso dic
+		on
+		i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on
+		dic.idcursoseccion=dcs.idcursoseccion join curso c
+		on
+		dcs.idcurso=c.idcurso
+		where alu.idusuario=#{idUsuario} and p.idperiodo=(select idperiodo from
+		periodo order by idperiodo desc limit 1)-1
+		and dic.promedio_c>=12.5))
+		and c.idcurso not in (select c.idcurso
+		from detalle_cursocarrera dcc
+		join curso c
+		on dcc.idcurso=c.idcurso join tipocurso ct
+		on
+		c.idtipocurso=ct.idtipocurso
+		where dcc.idcarrera=(select alum.idcarrera
+		from alumno alum where alum.idusuario=6) and dcc.idciclo=(SELECT
+		i.idciclo
+		FROM alumno alu join detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo
+		where alu.idusuario=#{idUsuario} and p.idperiodo=(select idperiodo from
+		periodo order by idperiodo desc limit 1)-1)+1
+		and ct.idtipocurso in
+		(select ct.idtipocurso
+		from detalle_cursocarrera dcc join curso c
+		on
+		dcc.idcurso=c.idcurso join tipocurso ct
+		on c.idtipocurso=ct.idtipocurso
+		where dcc.idcarrera=(select alum.idcarrera from alumno alum where
+		alum.idusuario=#{idUsuario}) and dcc.idciclo=(SELECT i.idciclo
+		FROM
+		alumno alu join detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo
+		where alu.idusuario=#{idUsuario} and p.idperiodo=(select idperiodo from
+		periodo order by idperiodo desc limit 1)-1)
+		and dcc.idcurso not in
+		(SELECT dcs.idcurso
+		FROM usuario u join alumno alu
+		on u.idusuario=alu.idusuario join
+		detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo join detalle_inscricurso dic
+		on
+		i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on
+		dic.idcursoseccion=dcs.idcursoseccion
+		where u.idusuario=#{idUsuario}
+		and p.idperiodo=(select idperiodo from periodo order by idperiodo desc
+		limit 1)-1)))
+	</select>
+
+	<select id="buscarCursosActuales2" parameterType="com.intranet.bean.Usuario"
+		resultType="com.intranet.bean.Curso">
+		select cx.*
+		from detalle_cursocarrera dcc join curso cx
+		on dcc.idcurso=cx.idcurso
+		where dcc.idcarrera=(select alum.idcarrera from alumno alum where
+		alum.idusuario=#{idUsuario}) and dcc.idciclo=(SELECT i.idciclo
+		FROM
+		alumno alu join detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo
+		where alu.idusuario=#{idUsuario} and p.idperiodo=(select idperiodo from
+		periodo order by idperiodo desc limit 1)-1)+1
+		and dcc.idcurso not in (SELECT dcs.idcurso
+		FROM alumno alu join detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo join detalle_inscricurso dic
+		on
+		i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on
+		dic.idcursoseccion=dcs.idcursoseccion
+		where alu.idusuario=#{idUsuario}
+		and p.idperiodo=(select idperiodo from periodo order by idperiodo desc
+		limit 1)-1)
+
+	</select>
+
+	<select id="buscarCursosFuturos" parameterType="com.intranet.bean.Usuario"
+		resultType="com.intranet.bean.Curso">
+		select c.*
+		from detalle_cursocarrera dcc join curso c
+		on dcc.idcurso=c.idcurso join tipocurso ct
+		on c.idtipocurso=ct.idtipocurso
+		where dcc.idcarrera=(select alum.idcarrera from alumno alum where
+		alum.idusuario=#{idUsuario}) and dcc.idciclo=(SELECT i.idciclo
+		FROM
+		alumno alu join detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo
+		where alu.idusuario=#{idUsuario} and p.idperiodo=(select idperiodo from
+		periodo order by idperiodo desc limit 1)-1)+2
+		and ct.idtipocurso in
+		(SELECT c.idtipocurso
+		from detalle_cursocarrera dcc join curso c
+		on
+		dcc.idcurso=c.idcurso
+		where dcc.idcarrera=(select alum.idcarrera from alumno alum where
+		alum.idusuario=#{idUsuario}) and dcc.idciclo=(SELECT i.idciclo
+		FROM
+		alumno alu join detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo
+		where alu.idusuario=#{idUsuario} and p.idperiodo=(select idperiodo from
+		periodo order by idperiodo desc limit 1)-1)+1
+		and dcc.idcurso in
+		(select c.idcurso
+		FROM alumno alu join detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join inscripcion i
+		on
+		dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=
+		p.idperiodo join detalle_inscricurso dic
+		on
+		i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on
+		dic.idcursoseccion=dcs.idcursoseccion join curso c
+		on
+		dcs.idcurso=c.idcurso
+		where alu.idusuario=#{idUsuario} and
+		p.idperiodo=(select idperiodo from periodo order by idperiodo desc
+		limit 1)-1
+		and dic.promedio_c>=12.5))
+	</select>
+
+	<select id="buscarCantCursosDelSigCiclo" parameterType="com.intranet.bean.Usuario"
+		resultType="int">
+		select count(dcc.idcurso)'cantcursos'
+		from detalle_cursocarrera dcc
+		where dcc.idciclo=
+		(select ins.idciclo
+		from usuario u join alumno alu
+		on u.idusuario=alu.idusuario join
+		detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join
+		inscripcion ins
+		on dai.idinscripcion=ins.idinscripcion join periodo p
+		on ins.idperiodo=p.idperiodo
+		where u.idusuario=#{idUsuario} and
+		p.idperiodo=(select idperiodo from periodo order by idperiodo desc
+		limit 1)-1)+1
+		and dcc.idcarrera=(select alu.idcarrera
+		from usuario u join alumno alu
+		on u.idusuario=alu.idusuario where u.idusuario=#{idUsuario})
+
+	</select>
+
+	<select id="buscarPromAntCiclo" parameterType="com.intranet.bean.Usuario"
+		resultType="double">
+		select ins.promedio_genral
+		from usuario u join alumno alu
+		on u.idusuario=alu.idusuario join
+		detalle_alumnoinscripcion dai
+		on alu.idalumno=dai.idalumno join
+		inscripcion ins
+		on dai.idinscripcion=ins.idinscripcion join periodo p
+		on ins.idperiodo=p.idperiodo
+		where u.idusuario=#{idUsuario} and
+		p.idperiodo=(select idperiodo from periodo order by idperiodo desc
+		limit 1)-1
+	</select>
+
+	<select id="ib_buscarInscripcionesGlobal" resultType="com.intranet.bean.Inscripcion">
+		select i.*
+		from inscripcion i join periodo p
+		on i.idperiodo=p.idperiodo
+		where p.idperiodo=(select idperiodo from periodo order by idperiodo desc
+		limit 1)
+	</select>
+
+</mapper>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="asistencia">
+
+	<select id="buscarAsistenciaResumen" parameterType="com.intranet.bean.Usuario"
+		resultType="com.intranet.asistencia.bean.AsistenciaResumen">
+		SELECT
+		dcs.idcursoseccion,c.desccurso,count(asist.idasistencia)'cantAsistencias'
+		FROM alumno al join detalle_alumnoinscripcion dai
+		on al.idalumno=dai.idalumno join inscripcion i
+		on dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo= p.idperiodo join detalle_inscricurso dic
+		on i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on dic.idcursoseccion=dcs.idcursoseccion left join asistencia asist
+		on dcs.idcursoseccion=asist.idcursoseccion and
+		asist.idinscripcion=i.idinscripcion join curso c
+		on dcs.idcurso=c.idcurso
+		where al.idalumno=(select alum.idalumno from usuario u join alumno alum
+		on u.idusuario=alum.idusuario where u.idusuario=#{idUsuario})
+		and i.idperiodo=(select idperiodo from periodo order by idperiodo desc
+		limit 1)
+		group by dcs.idcursoseccion,c.desccurso;
+	</select>
+
+	<parameterMap type="java.util.HashMap" id="asistDetail">
+		<parameter property="idUsi" javaType="java.lang.Integer" />
+		<parameter property="idCursi" javaType="java.lang.String" />
+	</parameterMap>
+
+	<select id="buscarAsistenciaDetallada" parameterMap="asistDetail"
+		resultType="com.intranet.bean.Asistencia">
+		select asist.*
+		from asistencia asist
+		where asist.idinscripcion=(select i.idinscripcion from usuario u join
+		alumno alum
+		on u.idusuario=alum.idusuario join detalle_alumnoinscripcion dai
+		on alum.idalumno=dai.idalumno join inscripcion i
+		on dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=p.idperiodo
+		where u.idusuario=#{idUsi} and p.idperiodo=(select idperiodo from periodo
+		order by idperiodo desc limit 1))
+		and asist.idcursoseccion=#{idCursi}
+	</select>
+
+	<select id="buscarSeccionesxProfesor" parameterType="com.intranet.bean.Usuario"
+		resultType="com.intranet.asistencia.bean.CursoSeccionConNombre">
+		select dcc.idcursoseccion,s.descSeccion,c.descCurso
+		from profesor p join detalle_cursoseccion dcc
+		on p.idprofesor=dcc.idprofesor join seccion s
+		on dcc.idseccion=s.idseccion join curso c
+		on dcc.idcurso=c.idcurso
+		where p.idusuario=#{idUsuario}
+	</select>
+
+	<select id="buscarAlumnosDeSeccion" parameterType="com.intranet.bean.Detalle_cursoSeccion"
+		resultType="com.intranet.asistencia.bean.AlumnoPropAsistencia">
+		select
+		i.idinscripcion,pr.nompersona,count(asist.idasistencia)'cantAsistencias'
+		from persona pr join alumno a
+		on pr.idpersona=a.idpersona join detalle_alumnoinscripcion dai
+		on a.idalumno=dai.idalumno join inscripcion i
+		on dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=p.idperiodo join detalle_inscricurso dic
+		on i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on dic.idcursoseccion=dcs.idcursoseccion left join asistencia asist
+		on dcs.idcursoseccion=asist.idcursoseccion and
+		i.idinscripcion=asist.idinscripcion
+		where dcs.idcursoseccion=#{idCursoSeccion} and p.idperiodo=(select
+		idperiodo from periodo order by idperiodo desc limit 1)
+		group by i.idinscripcion
+	</select>
+
+	<insert id="ib_registrarAsistencia" parameterType="com.intranet.bean.Asistencia">
+		insert into
+		asistencia(descAsistencia,fechaAsistencia,idInscripcion,idCursoSeccion)
+		values(#{descAsistencia},#{fechaAsistencia},#{idInscripcion},#{idCursoSeccion});
+	</insert>
+
+	<select id="ib_buscarFechasParamXProfesor" parameterType="com.intranet.bean.Detalle_cursoSeccion"
+		resultType="String">
+		select asist.fechaAsistencia
+		from asistencia asist join detalle_cursoseccion dcs
+		on asist.idcursoseccion=dcs.idcursoseccion join detalle_inscricurso dic
+		on dcs.idcursoseccion=dic.idcursoseccion join inscripcion i
+		on dic.idinscripcion=i.idinscripcion and
+		i.idinscripcion=asist.idinscripcion
+		where asist.idcursoseccion=#{idCursoSeccion} and i.idperiodo=(select
+		idperiodo from periodo order by idperiodo desc limit 1)
+		group by asist.fechaAsistencia
+	</select>
+
+	<parameterMap type="java.util.HashMap" id="cargarTwoMap">
+		<parameter property="va_fecha" javaType="java.lang.String" />
+		<parameter property="va_idsc" javaType="java.lang.Integer" />
+	</parameterMap>
+
+	<select id="ib_buscarAlumnosDeSeccion2" parameterMap="cargarTwoMap"
+		resultType="com.intranet.asistencia.bean.AlumnoPropAsistencia">
+		select
+		i.idinscripcion,pr.nompersona,count(asist.idasistencia)'cantAsistencias'
+		from persona pr join alumno a
+		on pr.idpersona=a.idpersona join detalle_alumnoinscripcion dai
+		on a.idalumno=dai.idalumno join inscripcion i
+		on dai.idinscripcion=i.idinscripcion join periodo p
+		on i.idperiodo=p.idperiodo join detalle_inscricurso dic
+		on i.idinscripcion=dic.idinscripcion join detalle_cursoseccion dcs
+		on dic.idcursoseccion=dcs.idcursoseccion left join asistencia asist
+		on dcs.idcursoseccion=asist.idcursoseccion and
+		i.idinscripcion=asist.idinscripcion
+		where asist.fechaAsistencia=#{va_fecha} and dcs.idcursoseccion=#{va_idsc}
+		and p.idperiodo=(select idperiodo from periodo order by idperiodo desc
+		limit 1)
+		group by i.idinscripcion
+	</select>
+
+	<update id="ib_modificarAsistencia" parameterType="com.intranet.bean.Asistencia">
+		update asistencia set descAsistencia=#{descAsistencia}
+		where idInscripcion=#{idInscripcion} and idCursoSeccion=#{idCursoSeccion}
+	</update>
+
+</mapper>
