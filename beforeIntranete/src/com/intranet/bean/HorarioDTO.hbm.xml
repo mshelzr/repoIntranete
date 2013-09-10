@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.HorarioDTO" table="horario" catalog="bdintranete">
+        <id name="idHorario" type="int">
+            <column name="idHorario" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="aulaDTO" class="com.intranet.bean.AulaDTO" fetch="select">
+            <column name="idAula" not-null="true" />
+        </many-to-one>
+        <many-to-one name="cursoCompuestoDTO" class="com.intranet.bean.CursoCompuestoDTO" fetch="select">
+            <column name="idCursoCompuesto" not-null="true" />
+        </many-to-one>
+        <property name="descHorario" type="string">
+            <column name="descHorario" length="45" />
+        </property>
+        <property name="horaIniciio" type="string">
+            <column name="hora_iniciio" length="8" />
+        </property>
+        <property name="horaFin" type="string">
+            <column name="hora_fin" length="8" />
+        </property>
+    </class>
+</hibernate-mapping>

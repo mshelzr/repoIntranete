@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.AsistenciaDTO" table="asistencia" catalog="bdintranete">
+        <id name="idAsistencia" type="int">
+            <column name="idAsistencia" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="cursoCompuestoDTO" class="com.intranet.bean.CursoCompuestoDTO" fetch="select">
+            <column name="idCursoCompuesto" not-null="true" />
+        </many-to-one>
+        <many-to-one name="personaDTO" class="com.intranet.bean.PersonaDTO" fetch="select">
+            <column name="idPersona" not-null="true" />
+        </many-to-one>
+        <many-to-one name="periodoDTO" class="com.intranet.bean.PeriodoDTO" fetch="select">
+            <column name="idPeriodo" not-null="true" />
+        </many-to-one>
+        <property name="fechaAsistencia" type="string">
+            <column name="fechaAsistencia" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

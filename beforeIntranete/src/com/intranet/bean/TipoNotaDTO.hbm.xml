@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.TipoNotaDTO" table="tiponota" catalog="bdintranete">
+        <id name="idTipoNota" type="int">
+            <column name="idTipoNota" />
+            <generator class="identity" />
+        </id>
+        <property name="descTipoNota" type="string">
+            <column name="descTipoNota" length="45" />
+        </property>
+        <set name="pesoNotaDTOs" table="pesonota" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idTipoNota" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.PesoNotaDTO" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.CategoriaCursoDTO" table="categoriacurso" catalog="bdintranete">
+        <id name="idCategoriaCurso" type="int">
+            <column name="idCategoriaCurso" />
+            <generator class="identity" />
+        </id>
+        <property name="descTipoCurso" type="string">
+            <column name="descTipoCurso" length="45" />
+        </property>
+        <set name="cursoDTOs" table="curso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idTipoCurso" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.CursoDTO" />
+        </set>
+    </class>
+</hibernate-mapping>

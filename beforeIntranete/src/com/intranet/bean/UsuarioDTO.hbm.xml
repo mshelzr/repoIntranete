@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.UsuarioDTO" table="usuario" catalog="bdintranete">
+        <id name="idUsuario" type="int">
+            <column name="idUsuario" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="perfilDTO" class="com.intranet.bean.PerfilDTO" fetch="select">
+            <column name="idPerfil" not-null="true" />
+        </many-to-one>
+        <property name="user" type="string">
+            <column name="user" length="45" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="45" />
+        </property>
+        <set name="profesorDTOs" table="profesor" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idUsuario" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.ProfesorDTO" />
+        </set>
+        <set name="alumnoDTOs" table="alumno" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idUsuario" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.AlumnoDTO" />
+        </set>
+    </class>
+</hibernate-mapping>

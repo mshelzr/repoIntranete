@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.SeccionDTO" table="seccion" catalog="bdintranete">
+        <id name="idSeccion" type="int">
+            <column name="idSeccion" />
+            <generator class="identity" />
+        </id>
+        <property name="descSeccion" type="string">
+            <column name="descSeccion" length="45" />
+        </property>
+        <set name="cursoCompuestoDTOs" table="cursocompuesto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idSeccion" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.CursoCompuestoDTO" />
+        </set>
+    </class>
+</hibernate-mapping>

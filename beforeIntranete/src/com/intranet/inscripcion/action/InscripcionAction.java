@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import com.intranet.bean.Curso;
-import com.intranet.bean.Usuario;
+import com.intranet.bean.CursoDTO;
+import com.intranet.bean.UsuarioDTO;
 import com.intranet.inscripcion.dao.InscripcionDAO;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -14,17 +14,17 @@ import com.opensymphony.xwork2.ActionSupport;
 public class InscripcionAction extends ActionSupport{
 	
 	private static final long serialVersionUID = 1L;
-	private List<Curso> listaCursosAnteriores;
-	private List<Curso> listaCursosActuales;
-	private List<Curso> listaCursosFuturos;
-	private List<Curso> listaVaciaA;
-	private List<Curso> listaVaciaB;
-	private List<Curso> listaVaciaC;
-	private List<Curso> listaB=new ArrayList<Curso>();
+	private List<CursoDTO> listaCursosAnteriores;
+	private List<CursoDTO> listaCursosActuales;
+	private List<CursoDTO> listaCursosFuturos;
+	private List<CursoDTO> listaVaciaA;
+	private List<CursoDTO> listaVaciaB;
+	private List<CursoDTO> listaVaciaC;
+	private List<CursoDTO> listaB=new ArrayList<CursoDTO>();
 	private int cantcursos=0;
 	
 	private Map<String,Object> sesion=ActionContext.getContext().getSession();
-	private Usuario usuO=(Usuario)sesion.get("a_usuario");
+	private UsuarioDTO usuO=(UsuarioDTO)sesion.get("a_usuario");
 	
 	public String execute(){
 			InscripcionDAO inscriService=new InscripcionDAO();
@@ -46,17 +46,17 @@ public class InscripcionAction extends ActionSupport{
 		System.out.println(listaB.size()+": es menor que 2");
 		if(listaB.size()<2)
 			if(!listaVaciaA.isEmpty()){
-				for(Curso curso: listaVaciaA){
+				for(CursoDTO curso: listaVaciaA){
 					curso=inscriService.obtenerCursoBean(curso);
 					listaB.add(curso);
 					System.out.println("Lista A: "+listaB.size()+"\t"+curso.getIdCurso()+"\t"+curso.getDescCurso());
 					
-					ListIterator<Curso> litr = listaCursosAnteriores.listIterator(); 
+					ListIterator<CursoDTO> litr = listaCursosAnteriores.listIterator(); 
 					while(litr.hasNext()) { 
-					Curso element = litr.next(); 
-						ListIterator<Curso> litr2 = listaB.listIterator(); 
+					CursoDTO element = litr.next(); 
+						ListIterator<CursoDTO> litr2 = listaB.listIterator(); 
 						while(litr2.hasNext()) { 
-						Curso element2 = litr2.next();
+						CursoDTO element2 = litr2.next();
 							if(element.getIdCurso()==element2.getIdCurso()){
 								litr.remove();
 							}
@@ -67,17 +67,17 @@ public class InscripcionAction extends ActionSupport{
 				if(!listaCursosAnteriores.isEmpty())
 					addActionError("Escoge uno de la lista A");
 				else {
-				for(Curso curso: listaVaciaB){
+				for(CursoDTO curso: listaVaciaB){
 					curso=inscriService.obtenerCursoBean(curso);
 					listaB.add(curso);
 					System.out.println("Lista B: "+listaB.size()+"\t"+curso.getIdCurso()+"\t"+curso.getDescCurso());
 					
-					ListIterator<Curso> litr = listaCursosActuales.listIterator(); 
+					ListIterator<CursoDTO> litr = listaCursosActuales.listIterator(); 
 					while(litr.hasNext()) { 
-					Curso element = litr.next(); 
-						ListIterator<Curso> litr2 = listaB.listIterator(); 
+					CursoDTO element = litr.next(); 
+						ListIterator<CursoDTO> litr2 = listaB.listIterator(); 
 						while(litr2.hasNext()) { 
-						Curso element2 = litr2.next();
+						CursoDTO element2 = litr2.next();
 							if(element.getIdCurso()==element2.getIdCurso()){
 								litr.remove();
 							}
@@ -89,17 +89,17 @@ public class InscripcionAction extends ActionSupport{
 				if(!listaCursosAnteriores.isEmpty() ||!listaCursosActuales.isEmpty() )
 					addActionError("Completa el registro de la listas anteriores");
 				else {
-				for(Curso curso: listaVaciaB){
+				for(CursoDTO curso: listaVaciaB){
 					curso=inscriService.obtenerCursoBean(curso);
 					listaB.add(curso);
 					System.out.println("Lista C: "+listaB.size()+"\t"+curso.getIdCurso()+"\t"+curso.getDescCurso());
 					
-					ListIterator<Curso> litr = listaCursosFuturos.listIterator(); 
+					ListIterator<CursoDTO> litr = listaCursosFuturos.listIterator(); 
 					while(litr.hasNext()) { 
-					Curso element = litr.next(); 
-						ListIterator<Curso> litr2 = listaB.listIterator(); 
+					CursoDTO element = litr.next(); 
+						ListIterator<CursoDTO> litr2 = listaB.listIterator(); 
 						while(litr2.hasNext()) { 
-						Curso element2 = litr2.next();
+						CursoDTO element2 = litr2.next();
 							if(element.getIdCurso()==element2.getIdCurso()){
 								litr.remove();
 							}
@@ -124,10 +124,10 @@ public class InscripcionAction extends ActionSupport{
 		}
 	}
 	
-	public void setListaCursosAnteriores(List<Curso> listaCursosAnteriores) {
+	public void setListaCursosAnteriores(List<CursoDTO> listaCursosAnteriores) {
 		this.listaCursosAnteriores = listaCursosAnteriores;
 	}
-	public List<Curso> getListaCursosAnteriores() {
+	public List<CursoDTO> getListaCursosAnteriores() {
 		return listaCursosAnteriores;
 	}
 	
@@ -141,34 +141,34 @@ public class InscripcionAction extends ActionSupport{
 	public void setCantcursos(int cantcursos) {
 		this.cantcursos = cantcursos;
 	}
-	public List<Curso> getListaVaciaA() {
+	public List<CursoDTO> getListaVaciaA() {
 		return listaVaciaA;
 	}
-	public void setListaVaciaA(List<Curso> listaVaciaA) {
+	public void setListaVaciaA(List<CursoDTO> listaVaciaA) {
 		this.listaVaciaA = listaVaciaA;
 	}
-	public List<Curso> getListaVaciaB() {
+	public List<CursoDTO> getListaVaciaB() {
 		return listaVaciaB;
 	}
-	public void setListaVaciaB(List<Curso> listaVaciaB) {
+	public void setListaVaciaB(List<CursoDTO> listaVaciaB) {
 		this.listaVaciaB = listaVaciaB;
 	}
-	public List<Curso> getListaVaciaC() {
+	public List<CursoDTO> getListaVaciaC() {
 		return listaVaciaC;
 	}
-	public void setListaVaciaC(List<Curso> listaVaciaC) {
+	public void setListaVaciaC(List<CursoDTO> listaVaciaC) {
 		this.listaVaciaC = listaVaciaC;
 	}
-	public List<Curso> getListaCursosActuales() {
+	public List<CursoDTO> getListaCursosActuales() {
 		return listaCursosActuales;
 	}
-	public void setListaCursosActuales(List<Curso> listaCursosActuales) {
+	public void setListaCursosActuales(List<CursoDTO> listaCursosActuales) {
 		this.listaCursosActuales = listaCursosActuales;
 	}
-	public List<Curso> getListaCursosFuturos() {
+	public List<CursoDTO> getListaCursosFuturos() {
 		return listaCursosFuturos;
 	}
-	public void setListaCursosFuturos(List<Curso> listaCursosFuturos) {
+	public void setListaCursosFuturos(List<CursoDTO> listaCursosFuturos) {
 		this.listaCursosFuturos = listaCursosFuturos;
 	}
 

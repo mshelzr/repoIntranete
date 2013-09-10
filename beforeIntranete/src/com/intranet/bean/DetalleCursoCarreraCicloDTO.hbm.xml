@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.DetalleCursoCarreraCicloDTO" table="detalle_cursocarrera" catalog="bdintranete">
+        <composite-id name="id" class="com.intranet.bean.DetalleCursoCarreraCicloDTOId">
+            <key-property name="idCiclo" type="int">
+                <column name="idCiclo" />
+            </key-property>
+            <key-property name="idCarrera" type="int">
+                <column name="idCarrera" />
+            </key-property>
+            <key-property name="idCurso" type="int">
+                <column name="idCurso" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="cicloDTO" class="com.intranet.bean.CicloDTO" update="false" insert="false" fetch="select">
+            <column name="idCiclo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="cursoDTO" class="com.intranet.bean.CursoDTO" update="false" insert="false" fetch="select">
+            <column name="idCurso" not-null="true" />
+        </many-to-one>
+        <many-to-one name="carreraDTO" class="com.intranet.bean.CarreraDTO" update="false" insert="false" fetch="select">
+            <column name="idCarrera" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

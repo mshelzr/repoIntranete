@@ -2,8 +2,8 @@ package com.intranet.seguridad.action;
 
 import java.util.Map;
 
-import com.intranet.bean.Perfil;
-import com.intranet.bean.Usuario;
+import com.intranet.bean.PerfilDTO;
+import com.intranet.bean.UsuarioDTO;
 import com.intranet.seguridad.dao.PerfilDAO;
 import com.intranet.seguridad.dao.UsuarioDAO;
 import com.opensymphony.xwork2.ActionContext;
@@ -12,21 +12,21 @@ import com.opensymphony.xwork2.ActionSupport;
 public class LoginAction extends ActionSupport {
 	
 	private static final long serialVersionUID = 1L;
-	private Usuario usuario;
-	private Perfil perfil;
+	private UsuarioDTO usuario;
+	private PerfilDTO perfil;
 	private Map<String,Object> sesion;
 	private String mensaje="Sal pe";
 
-	public Usuario getUsuario() {
+	public UsuarioDTO getUsuarioDTO() {
 		return usuario;
 	}
-	public void setUsuario(Usuario usuario) {
+	public void setUsuario(UsuarioDTO usuario) {
 		this.usuario = usuario;
 	}
-	public Perfil getPerfil() {
+	public PerfilDTO getPerfilDTO() {
 		return perfil;
 	}
-	public void setPerfil(Perfil perfil) {
+	public void setPerfil(PerfilDTO perfil) {
 		this.perfil = perfil;
 	}
 	public Map<String, Object> getSesion() {
@@ -43,8 +43,8 @@ public class LoginAction extends ActionSupport {
 		PerfilDAO perfilDao=new PerfilDAO();
 		UsuarioDAO usuarioDao=new UsuarioDAO();
 		
-		Usuario usuario2=usuarioDao.validarUsuario(usuario);
-		Perfil perfil2=perfilDao.buscarPerfil(usuario2);
+		UsuarioDTO usuario2=usuarioDao.validarUsuario(usuario);
+		PerfilDTO perfil2=perfilDao.buscarPerfil(usuario2);
 		
 		if(usuario2!=null){
 

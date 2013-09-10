@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<table-filter match-catalog="bdintranete" match-name="alumno" />
+	<table-filter match-catalog="bdintranete" match-name="asistencia" />
+	<table-filter match-catalog="bdintranete" match-name="aula" />
+	<table-filter match-catalog="bdintranete" match-name="carrera" />
+	<table-filter match-catalog="bdintranete"
+		match-name="categoriacurso" />
+	<table-filter match-catalog="bdintranete" match-name="ciclo" />
+	<table-filter match-catalog="bdintranete" match-name="curso" />
+	<table-filter match-catalog="bdintranete"
+		match-name="cursocompuesto" />
+	<table-filter match-catalog="bdintranete"
+		match-name="detalle_cursocarrera" />
+	<table-filter match-catalog="bdintranete"
+		match-name="detalle_inscricurso" />
+	<table-filter match-catalog="bdintranete" match-name="horario" />
+	<table-filter match-catalog="bdintranete" match-name="inscripcion" />
+	<table-filter match-catalog="bdintranete" match-name="nota" />
+	<table-filter match-catalog="bdintranete" match-name="perfil" />
+	<table-filter match-catalog="bdintranete" match-name="periodo" />
+	<table-filter match-catalog="bdintranete" match-name="persona" />
+	<table-filter match-catalog="bdintranete" match-name="pesonota" />
+	<table-filter match-catalog="bdintranete" match-name="profesor" />
+	<table-filter match-catalog="bdintranete" match-name="seccion" />
+	<table-filter match-catalog="bdintranete" match-name="tiponota" />
+	<table-filter match-catalog="bdintranete" match-name="usuario" />
+	<table catalog="bdintranete" name="carrera" class="com.intranet.bean.CarreraDTO">
+		<column name="idCarrera" type="int"></column>
+		<column name="desCarrera"></column>
+	</table>
+	<table catalog="bdintranete" name="inscripcion" class="com.intranet.bean.InscripcionDTO">
+		<column name="idInscripcion" type="int"></column>
+		<column name="fec_inscrito" type="string"></column>
+		<column name="promedioGenral" type="double"></column>
+		<column name="aprobado" type="int"></column>
+		<column name="idPeriodo" type="int"></column>
+		<column name="idCiclo" type="int"></column>
+		<column name="idAlumno" type="int"></column>
+	</table>
+	<table catalog="bdintranete" name="profesor" class="com.intranet.bean.ProfesorDTO">
+		<column name="idProfesor" type="int"></column>
+		<column name="descProfesor"></column>
+		<column name="idPersona" type="int"></column>
+		<column name="idUsuario" type="int"></column>
+	</table>
+	<table catalog="bdintranete" name="curso" class="com.intranet.bean.CursoDTO">
+		<column name="idCurso" type="int"></column>
+		<column name="descCurso"></column>
+		<column name="creditos" type="int"></column>
+		<column name="idTipoCurso" type="int"></column>
+	</table>
+	<table catalog="bdintranete" name="tiponota" class="com.intranet.bean.TipoNotaDTO">
+		<column name="idTipoNota" type="int"></column>
+		<column name="descTipoNota"></column>
+	</table>
+	<table catalog="bdintranete" name="asistencia" class="com.intranet.bean.AsistenciaDTO">
+		<column name="idAsistencia" type="int"></column>
+		<column name="fechaAsistencia" type="string"></column>
+		<column name="idCursoCompuesto" type="int"></column>
+		<column name="idPersona" type="int"></column>
+		<column name="idPeriodo" type="int"></column>
+	</table>
+	<table catalog="bdintranete" name="nota" class="com.intranet.bean.NotaDTO">
+		<column name="idNota" type="int"></column>
+		<column name="nota" type="double"></column>
+		<column name="fecPublicado_Nota" type="string"></column>
+		<column name="idPesoNota" type="int"></column>
+		<column name="idCursoCompuesto" type="int"></column>
+		<column name="idInscripcion" type="int"></column>
+	</table>
+	<table catalog="bdintranete" name="pesonota" class="com.intranet.bean.PesoNotaDTO">
+		<column name="idPesoNota" type="int"></column>
+		<column name="porcentajepesonota" type="double"></column>
+		<column name="idTipoNota" type="int"></column>
+		<column name="idCurso" type="int"></column>
+	</table>
+	<table catalog="bdintranete" name="aula" class="com.intranet.bean.AulaDTO">
+		<column name="idAula" type="int"></column>
+		<column name="numAula"></column>
+	</table>
+	<table catalog="bdintranete" name="cursocompuesto" class="com.intranet.bean.CursoCompuestoDTO">
+		<column name="idCursoCompuesto" type="int"></column>
+		<column name="idCurso" type="int"></column>
+		<column name="idSeccion" type="int"></column>
+		<column name="idProfesor" type="int"></column>
+		<column name="idPeriodo" type="int"></column>
+		<column name="nota_encuesta" type="double"></column>
+	</table>
+	<table catalog="bdintranete" name="persona" class="com.intranet.bean.PersonaDTO">
+		<column name="idPersona" type="int"></column>
+		<column name="nomPersona"></column>
+		<column name="apePersona"></column>
+		<column name="dniPersona" type="int"></column>
+		<column name="telfPersona" type="int"></column>
+		<column name="direcPersona"></column>
+		<column name="foto" type="binary"></column>
+	</table>
+<table catalog="bdintranete" name="detalle_cursocarrera"
+	class="com.intranet.bean.DetalleCursoCarreraCicloDTO">
+	<column name="idCiclo" type="int"></column>
+	<column name="idCarrera" type="int"></column>
+	<column name="idCurso" type="int"></column>
+</table>
+<table catalog="bdintranete" name="periodo" class="com.intranet.bean.PeriodoDTO">
+		<column name="idPeriodo" type="int"></column>
+		<column name="descPeriodo"></column>
+	</table>
+<table catalog="bdintranete" name="detalle_inscricurso"
+	class="com.intranet.bean.DetalleInscriCursoDTO">
+	<column name="idInscripcion" type="int"></column>
+	<column name="idCursoCompuesto" type="int"></column>
+	<column name="promedio_c" type="double"></column>
+</table>
+<table catalog="bdintranete" name="perfil" class="com.intranet.bean.PerfilDTO">
+		<column name="idPerfil" type="int"></column>
+		<column name="descPerfil"></column>
+	</table>
+	<table catalog="bdintranete" name="categoriacurso" class="com.intranet.bean.CategoriaCursoDTO">
+		<column name="idCategoriaCurso" type="int"></column>
+		<column name="descTipoCurso"></column>
+	</table>
+	<table catalog="bdintranete" name="seccion" class="com.intranet.bean.SeccionDTO">
+		<column name="idSeccion" type="int"></column>
+		<column name="descSeccion"></column>
+	</table>
+	<table catalog="bdintranete" name="horario" class="com.intranet.bean.HorarioDTO">
+		<column name="idHorario" type="int"></column>
+		<column name="descHorario"></column>
+		<column name="hora_iniciio" type="string"></column>
+		<column name="hora_fin" type="string"></column>
+		<column name="idAula" type="int"></column>
+		<column name="idCursoCompuesto" type="int"></column>
+	</table>
+	<table catalog="bdintranete" name="usuario" class="com.intranet.bean.UsuarioDTO">
+		<column name="idUsuario" type="int"></column>
+		<column name="user"></column>
+		<column name="password"></column>
+		<column name="idPerfil" type="int"></column>
+	</table>
+	<table catalog="bdintranete" name="ciclo" class="com.intranet.bean.CicloDTO">
+		<column name="idCiclo" type="int"></column>
+		<column name="creditos_dispon"></column>
+	</table>
+	<table catalog="bdintranete" name="alumno" class="com.intranet.bean.AlumnoDTO">
+		<column name="idAlumno" type="int"></column>
+		<column name="descAlumno"></column>
+		<column name="idCarrera" type="int"></column>
+		<column name="idPersona" type="int"></column>
+		<column name="idUsuario" type="int"></column>
+	</table>
+</hibernate-reverse-engineering>

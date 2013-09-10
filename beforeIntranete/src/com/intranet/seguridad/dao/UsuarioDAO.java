@@ -1,19 +1,12 @@
 package com.intranet.seguridad.dao;
 
-import org.apache.ibatis.session.SqlSession;
-
-import com.intranet.bean.Usuario;
-import com.intranet.ibatis.MyIbatisManager;
+import com.intranet.bean.UsuarioDTO;
 
 public class UsuarioDAO{
 
-	public Usuario validarUsuario(Usuario user){
+	public UsuarioDTO validarUsuario(UsuarioDTO user){
 		
-		SqlSession sesion=MyIbatisManager.getSqlSessionFactory().openSession(true);
-		Usuario usuario=(Usuario) sesion.selectOne("buscarUsuario", user);
-		sesion.close();
-		
-		return usuario;
+		return null;
 	}
 
 }

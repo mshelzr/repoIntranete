@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.CursoCompuestoDTO" table="cursocompuesto" catalog="bdintranete">
+        <id name="idCursoCompuesto" type="int">
+            <column name="idCursoCompuesto" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="profesorDTO" class="com.intranet.bean.ProfesorDTO" fetch="select">
+            <column name="idProfesor" not-null="true" />
+        </many-to-one>
+        <many-to-one name="cursoDTO" class="com.intranet.bean.CursoDTO" fetch="select">
+            <column name="idCurso" not-null="true" />
+        </many-to-one>
+        <many-to-one name="seccionDTO" class="com.intranet.bean.SeccionDTO" fetch="select">
+            <column name="idSeccion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="periodoDTO" class="com.intranet.bean.PeriodoDTO" fetch="select">
+            <column name="idPeriodo" not-null="true" />
+        </many-to-one>
+        <property name="notaEncuesta" type="double">
+            <column name="nota_encuesta" />
+        </property>
+        <set name="notaDTOs" table="nota" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idCursoCompuesto" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.NotaDTO" />
+        </set>
+        <set name="horarioDTOs" table="horario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idCursoCompuesto" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.HorarioDTO" />
+        </set>
+        <set name="detalleInscriCursoDTOs" table="detalle_inscricurso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idCursoCompuesto" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.DetalleInscriCursoDTO" />
+        </set>
+        <set name="asistenciaDTOs" table="asistencia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idCursoCompuesto" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.AsistenciaDTO" />
+        </set>
+    </class>
+</hibernate-mapping>
