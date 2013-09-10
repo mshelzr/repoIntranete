@@ -10,8 +10,8 @@
 <body>
 
 	<s:form action="logueo" method="post">
-		<s:textfield label="Nombre" name="usuario.user" value="secretaria" />
-		<s:textfield label="Password" name="usuario.password" value="tres" />
+		<s:textfield label="Nombre" name="usuario.user" value="alumno" />
+		<s:textfield label="Password" name="usuario.password" value="uno" />
 		<s:submit value="Enviar" />
 	</s:form>
 
