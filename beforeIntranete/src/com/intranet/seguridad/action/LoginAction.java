@@ -2,9 +2,10 @@ package com.intranet.seguridad.action;
 
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.intranet.bean.PerfilDTO;
 import com.intranet.bean.UsuarioDTO;
-import com.intranet.seguridad.dao.PerfilDAO;
 import com.intranet.seguridad.dao.UsuarioDAO;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -40,23 +41,24 @@ public class LoginAction extends ActionSupport {
 	}
 	public String execute(){
 		//Modificando s
-		PerfilDAO perfilDao=new PerfilDAO();
 		UsuarioDAO usuarioDao=new UsuarioDAO();
+//		PerfilDAO perfilDao=new PerfilDAO();
 		
 		UsuarioDTO usuario2=usuarioDao.validarUsuario(usuario);
-		PerfilDTO perfil2=perfilDao.buscarPerfil(usuario2);
+//		PerfilDTO perfil2=perfilDao.buscarPerfil(usuario2);
 		
 		if(usuario2!=null){
-
+			
 			sesion=ActionContext.getContext().getSession();
 			sesion.put("s_usuario", usuario2);
-
-			if(perfil2.getIdPerfil()==1)
-				return "alumno";
-			else if(perfil2.getIdPerfil()==2)
-				return "profesor";
-			else if(perfil2.getIdPerfil()==3)
-				return "secretaria";
+			Logger.getLogger(LoginAction.class).info("Usuario!=null");
+			return "alumno";
+//			if(perfil2.getIdPerfil()==1)
+//				return "alumno";
+//			else if(perfil2.getIdPerfil()==2)
+//				return "profesor";
+//			else if(perfil2.getIdPerfil()==3)
+//				return "secretaria";
 		}
 		return "error";
 	}
