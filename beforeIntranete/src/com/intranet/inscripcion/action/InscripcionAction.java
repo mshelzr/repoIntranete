@@ -7,47 +7,47 @@ import java.util.Map;
 
 import com.intranet.bean.Curso;
 import com.intranet.bean.Usuario;
-import com.intranet.inscripcion.service.InscripcionService;
-import com.intranet.inscripcion.service.InscripcionService_I;
+import com.intranet.inscripcion.dao.InscripcionDAO;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class InscripcionAction extends ActionSupport{
 	
-	private static List<Curso> listaCursosAnteriores;
-	private static List<Curso> listaCursosActuales;
-	private static List<Curso> listaCursosFuturos;
+	private static final long serialVersionUID = 1L;
+	private List<Curso> listaCursosAnteriores;
+	private List<Curso> listaCursosActuales;
+	private List<Curso> listaCursosFuturos;
 	private List<Curso> listaVaciaA;
 	private List<Curso> listaVaciaB;
 	private List<Curso> listaVaciaC;
-	private static List<Curso> listaB=new ArrayList<Curso>();
+	private List<Curso> listaB=new ArrayList<Curso>();
 	private int cantcursos=0;
 	
 	private Map<String,Object> sesion=ActionContext.getContext().getSession();
 	private Usuario usuO=(Usuario)sesion.get("a_usuario");
 	
 	public String execute(){
-			InscripcionService_I inscriService=new InscripcionService();
-			listaCursosAnteriores=inscriService.buscarCursosAnt(usuO);
-			listaCursosAnteriores.addAll(inscriService.buscarCursosAnt2(usuO));
-			listaCursosActuales=inscriService.buscarCursosAct(usuO);
-			listaCursosActuales.addAll(inscriService.buscarCursosAct2(usuO));
-			listaCursosFuturos=inscriService.buscarCursosFut(usuO);
+			InscripcionDAO inscriService=new InscripcionDAO();
+			listaCursosAnteriores=inscriService.obtenerCursosActuales(usuO);
+			listaCursosAnteriores.addAll(inscriService.obtenerCursosAnteriores2(usuO));
+			listaCursosActuales=inscriService.obtenerCursosActuales(usuO);
+			listaCursosActuales.addAll(inscriService.obtenerCursosActuales2(usuO));
+			listaCursosFuturos=inscriService.obtenerCursosFuturos(usuO);
 
-			cantcursos=inscriService.buscarDAtosPreInscripcion(usuO);
+			cantcursos=inscriService.obtenerDatosPreInscripcion(usuO);
 			
-			if(inscriService.buscarPromAntCiclo(usuO)<12.5)
+			if(inscriService.obtenerPromAntCiclo(usuO)<12.5)
 				cantcursos=6;
 		
 		return "exito";
 	}
 	public String verificarAgregarCursos(){
-		InscripcionService_I inscriService=new InscripcionService();
+		InscripcionDAO inscriService=new InscripcionDAO();
 		System.out.println(listaB.size()+": es menor que 2");
 		if(listaB.size()<2)
 			if(!listaVaciaA.isEmpty()){
 				for(Curso curso: listaVaciaA){
-					curso=inscriService.buscarCursoBean(curso);
+					curso=inscriService.obtenerCursoBean(curso);
 					listaB.add(curso);
 					System.out.println("Lista A: "+listaB.size()+"\t"+curso.getIdCurso()+"\t"+curso.getDescCurso());
 					
@@ -68,7 +68,7 @@ public class InscripcionAction extends ActionSupport{
 					addActionError("Escoge uno de la lista A");
 				else {
 				for(Curso curso: listaVaciaB){
-					curso=inscriService.buscarCursoBean(curso);
+					curso=inscriService.obtenerCursoBean(curso);
 					listaB.add(curso);
 					System.out.println("Lista B: "+listaB.size()+"\t"+curso.getIdCurso()+"\t"+curso.getDescCurso());
 					
@@ -90,7 +90,7 @@ public class InscripcionAction extends ActionSupport{
 					addActionError("Completa el registro de la listas anteriores");
 				else {
 				for(Curso curso: listaVaciaB){
-					curso=inscriService.buscarCursoBean(curso);
+					curso=inscriService.obtenerCursoBean(curso);
 					listaB.add(curso);
 					System.out.println("Lista C: "+listaB.size()+"\t"+curso.getIdCurso()+"\t"+curso.getDescCurso());
 					
@@ -163,13 +163,13 @@ public class InscripcionAction extends ActionSupport{
 		return listaCursosActuales;
 	}
 	public void setListaCursosActuales(List<Curso> listaCursosActuales) {
-		InscripcionAction.listaCursosActuales = listaCursosActuales;
+		this.listaCursosActuales = listaCursosActuales;
 	}
 	public List<Curso> getListaCursosFuturos() {
 		return listaCursosFuturos;
 	}
 	public void setListaCursosFuturos(List<Curso> listaCursosFuturos) {
-		InscripcionAction.listaCursosFuturos = listaCursosFuturos;
+		this.listaCursosFuturos = listaCursosFuturos;
 	}
 
 }

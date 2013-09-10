@@ -5,10 +5,9 @@ import org.apache.ibatis.session.SqlSession;
 import com.intranet.bean.Usuario;
 import com.intranet.ibatis.MyIbatisManager;
 
-public class UsuarioDAO implements UsuarioDAO_I{
+public class UsuarioDAO{
 
-	@Override
-	public Usuario validarUsuario(Usuario user) throws Exception {
+	public Usuario validarUsuario(Usuario user){
 		
 		SqlSession sesion=MyIbatisManager.getSqlSessionFactory().openSession(true);
 		Usuario usuario=(Usuario) sesion.selectOne("buscarUsuario", user);

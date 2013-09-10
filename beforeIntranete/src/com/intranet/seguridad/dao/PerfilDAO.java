@@ -6,9 +6,8 @@ import com.intranet.bean.Perfil;
 import com.intranet.bean.Usuario;
 import com.intranet.ibatis.MyIbatisManager;
 
-public class PerfilDAO implements PerfilDAO_I {
+public class PerfilDAO {
 
-	@Override
 	public Perfil buscarPerfil(Usuario user) {
 	
 		SqlSession sesion=MyIbatisManager.getSqlSessionFactory().openSession(true);
