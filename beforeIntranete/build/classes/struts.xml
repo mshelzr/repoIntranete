@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.devMode" value="true" />
+
+	<package name="default" namespace="/" extends="struts-default">
+
+		<action name="logueo" class="com.intranet.seguridad.action.LoginAction">
+			<result name="error">/login.jsp </result>
+			<result name="alumno">/alumno.jsp </result>
+			<result name="profesor">/profesor.jsp </result>
+			<result name="secretaria">/secretaria.jsp</result>
+		</action>
+		<action name="listaCursosAsistencia"
+			class="com.intranet.asistencia.action.CursosAsistenciaAction">
+			<result name="exito">/cursoasistencia.jsp </result>
+			<result name="error">/alumno.jsp </result>
+		</action>
+		<action name="listaAsistenciaDetallada"
+			class="com.intranet.asistencia.action.AsistenciaDetalladoAction">
+			<result name="exito">/asistenciadetallado.jsp </result>
+			<!-- <result name="error">/cursoasistencia.jsp </result> -->
+		</action>
+		<action name="listarCursos" class="com.intranet.nota.action.NotaAction">
+			<result name="exito">/cursosnotas.jsp </result>
+		</action>
+		<action name="notaDetallado" class="com.intranet.nota.action.NotaAction"
+			method="notasDetalladas">
+			<result name="exito">/notas.jsp </result>
+		</action>
+		<action name="listarCursosHorario" class="com.intranet.horario.action.HorarioAction">
+			<result name="exito">/horario.jsp </result>
+		</action>
+		<action name="inscripcion"
+			class="com.intranet.inscripcion.action.InscripcionAction">
+			<result name="exito">/inscripcion.jsp </result>
+		</action>
+		<action name="cargarCursosInscripcion"
+			class="com.intranet.inscripcion.action.InscripcionAction" method="verificarAgregarCursos">
+			<result name="success">/inscripcion.jsp</result>
+			<result name="input">/inscripcion.jsp</result>
+		</action>
+		<action name="binscribir"
+			class="com.intranet.inscripcion.action.InscripcionAction" method="inscribir">
+			<result name="success">/inscripciondetalle.jsp</result>
+			<result name="input">/inscripcion.jsp</result>
+		</action>
+
+		<action name="irAgregarAsistencia"
+			class="com.intranet.asistencia.action.AsistenciaDetalladoAction"
+			method="mIrAgregarAsistencia">
+			<result name="success">/agregarasistenciaxprofesor.jsp </result>
+		</action>
+		<action name="cargarParamAgregarAsistencia"
+			class="com.intranet.asistencia.action.AsistenciaDetalladoAction"
+			method="mCargarParamAgregarAsistencia">
+			<result name="success">/agregarasistenciaxprofesor.jsp </result>
+		</action>
+		<action name="agregarAsistencia"
+			class="com.intranet.asistencia.action.AsistenciaDetalladoAction"
+			method="mAgregarAsistencia">
+			<result name="success">/resultadodeoperacion.jsp </result>
+		</action>
+
+		<!-- //modificar -->
+		<action name="irModificarAsistencia"
+			class="com.intranet.asistencia.action.AsistenciaDetalladoAction"
+			method="mIrAgregarAsistencia">
+			<result name="success">/modificarasistenciaxprofesor.jsp </result>
+		</action>
+		<action name="cargarParamModificarAsistencia"
+			class="com.intranet.asistencia.action.AsistenciaDetalladoAction"
+			method="mCargarParamFechaAgregarAsistencia">
+			<result name="success">/modificarasistenciaxprofesor.jsp </result>
+		</action>
+		<action name="cargarParamFechaModificarAsistencia"
+			class="com.intranet.asistencia.action.AsistenciaDetalladoAction"
+			method="mCargarParamModificarAsistencia">
+			<result name="success">/modificarasistenciaxprofesor.jsp </result>
+		</action>
+		<action name="modificarAsistencia"
+			class="com.intranet.asistencia.action.AsistenciaDetalladoAction"
+			method="mModificarAsistencia">
+			<result name="success">/resultadodeoperacion.jsp </result>
+		</action>
+
+		<!-- Seccion Nota -->
+		<action name="cargarSeccionesDelProfesorActReg" class="com.intranet.nota.action.NotaAction"
+			method="mCargarSeccionesDelProfesorActGen">
+			<result name="success">/agregarnotaxprofesor.jsp </result>
+		</action>
+		<action name="cargarTiposNotaActReg" class="com.intranet.nota.action.NotaAction"
+			method="mCargarTipoNota">
+			<result name="success">/agregarnotaxprofesor.jsp</result>
+		</action>
+		<action name="listarAlumnosParAgregarNota" class="com.intranet.nota.action.NotaAction"
+			method="mListarAlumnosConNota">
+			<result name="success">/agregarnotaxprofesor.jsp</result>
+		</action>
+		<action name="AgregarNota" class="com.intranet.nota.action.NotaAction"
+			method="mGenerarNota">
+			<result name="success">/resultadodeoperacion.jsp </result>
+		</action>
+
+		<!-- modif -->
+		<action name="cargarSeccionesDelProfesorActMod" class="com.intranet.nota.action.NotaAction"
+			method="mCargarSeccionesDelProfesorActGen">
+			<result name="success">/modificarnotaxprofesor.jsp </result>
+		</action>
+		<action name="cargarTiposNotaActMod" class="com.intranet.nota.action.NotaAction"
+			method="mCargarTipoNota">
+			<result name="success">/modificarnotaxprofesor.jsp</result>
+		</action>
+		<action name="listarAlumnosParModificarNota" class="com.intranet.nota.action.NotaAction"
+			method="mListarAlumnosConNota">
+			<result name="success">/agregarnotaxprofesor.jsp</result>
+		</action>
+		<action name="ModificarNota" class="com.intranet.nota.action.NotaAction"
+			method="mGenerarNota">
+			<result name="success">/resultadodeoperacion.jsp </result>
+		</action>
+
+		<!-- secretaria: -->
+		<action name="irCierreDeSemestre" class="com.intranet.nota.action.CerrarSemestreAction">
+			<result name="success">/cerrarsemestre.jsp</result>
+		</action>
+		<action name="cierreDeSemestre" class="com.intranet.nota.action.CerrarSemestreAction"
+			method="mCierreDeSemestre">
+			<result name="success">/resultadodeoperacion.jsp</result>
+		</action>
+	</package>
+
+</struts>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.PesoNotaDTO" table="pesonota" catalog="bdintranete">
+        <id name="idPesoNota" type="int">
+            <column name="idPesoNota" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tipoNotaDTO" class="com.intranet.bean.TipoNotaDTO" fetch="select">
+            <column name="idTipoNota" not-null="true" />
+        </many-to-one>
+        <many-to-one name="cursoDTO" class="com.intranet.bean.CursoDTO" fetch="select">
+            <column name="idCurso" not-null="true" />
+        </many-to-one>
+        <property name="porcentajepesonota" type="double">
+            <column name="porcentajepesonota" precision="22" scale="0" />
+        </property>
+        <set name="notaDTOs" table="nota" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idPesoNota" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.NotaDTO" />
+        </set>
+    </class>
+</hibernate-mapping>

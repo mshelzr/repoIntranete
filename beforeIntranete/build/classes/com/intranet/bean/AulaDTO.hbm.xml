@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.AulaDTO" table="aula" catalog="bdintranete">
+        <id name="idAula" type="int">
+            <column name="idAula" />
+            <generator class="identity" />
+        </id>
+        <property name="numAula" type="string">
+            <column name="numAula" length="45" />
+        </property>
+        <set name="horarioDTOs" table="horario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idAula" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.HorarioDTO" />
+        </set>
+    </class>
+</hibernate-mapping>

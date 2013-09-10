@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.PeriodoDTO" table="periodo" catalog="bdintranete">
+        <id name="idPeriodo" type="int">
+            <column name="idPeriodo" />
+            <generator class="identity" />
+        </id>
+        <property name="descPeriodo" type="string">
+            <column name="descPeriodo" length="45" />
+        </property>
+        <set name="inscripcionDTOs" table="inscripcion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idPeriodo" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.InscripcionDTO" />
+        </set>
+        <set name="cursoCompuestoDTOs" table="cursocompuesto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idPeriodo" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.CursoCompuestoDTO" />
+        </set>
+        <set name="asistenciaDTOs" table="asistencia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idPeriodo" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.AsistenciaDTO" />
+        </set>
+    </class>
+</hibernate-mapping>

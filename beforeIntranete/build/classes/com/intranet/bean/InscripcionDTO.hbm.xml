@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.InscripcionDTO" table="inscripcion" catalog="bdintranete">
+        <id name="idInscripcion" type="int">
+            <column name="idInscripcion" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="cicloDTO" class="com.intranet.bean.CicloDTO" fetch="select">
+            <column name="idCiclo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="alumnoDTO" class="com.intranet.bean.AlumnoDTO" fetch="select">
+            <column name="idAlumno" not-null="true" />
+        </many-to-one>
+        <many-to-one name="periodoDTO" class="com.intranet.bean.PeriodoDTO" fetch="select">
+            <column name="idPeriodo" not-null="true" />
+        </many-to-one>
+        <property name="fecInscrito" type="string">
+            <column name="fec_inscrito" length="19" />
+        </property>
+        <property name="promedioGenral" type="double">
+            <column name="promedioGenral" precision="22" scale="0" />
+        </property>
+        <property name="aprobado" type="int">
+            <column name="aprobado" />
+        </property>
+        <set name="notaDTOs" table="nota" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idInscripcion" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.NotaDTO" />
+        </set>
+        <set name="detalleInscriCursoDTOs" table="detalle_inscricurso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idInscripcion" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.DetalleInscriCursoDTO" />
+        </set>
+    </class>
+</hibernate-mapping>

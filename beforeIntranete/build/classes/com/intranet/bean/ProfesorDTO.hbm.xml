@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.ProfesorDTO" table="profesor" catalog="bdintranete">
+        <id name="idProfesor" type="int">
+            <column name="idProfesor" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="usuarioDTO" class="com.intranet.bean.UsuarioDTO" fetch="select">
+            <column name="idUsuario" not-null="true" />
+        </many-to-one>
+        <many-to-one name="personaDTO" class="com.intranet.bean.PersonaDTO" fetch="select">
+            <column name="idPersona" not-null="true" />
+        </many-to-one>
+        <property name="descProfesor" type="string">
+            <column name="descProfesor" length="45" />
+        </property>
+        <set name="cursoCompuestoDTOs" table="cursocompuesto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idProfesor" not-null="true" />
+            </key>
+            <one-to-many class="com.intranet.bean.CursoCompuestoDTO" />
+        </set>
+    </class>
+</hibernate-mapping>

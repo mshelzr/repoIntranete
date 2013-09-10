@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.intranet.bean.DetalleInscriCursoDTO" table="detalle_inscricurso" catalog="bdintranete">
+        <composite-id name="id" class="com.intranet.bean.DetalleInscriCursoDTOId">
+            <key-property name="idInscripcion" type="int">
+                <column name="idInscripcion" />
+            </key-property>
+            <key-property name="idCursoCompuesto" type="int">
+                <column name="idCursoCompuesto" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="cursoCompuestoDTO" class="com.intranet.bean.CursoCompuestoDTO" update="false" insert="false" fetch="select">
+            <column name="idCursoCompuesto" not-null="true" />
+        </many-to-one>
+        <many-to-one name="inscripcionDTO" class="com.intranet.bean.InscripcionDTO" update="false" insert="false" fetch="select">
+            <column name="idInscripcion" not-null="true" />
+        </many-to-one>
+        <property name="promedioC" type="double">
+            <column name="promedio_c" precision="22" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>
