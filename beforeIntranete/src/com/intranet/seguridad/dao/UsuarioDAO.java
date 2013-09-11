@@ -12,7 +12,8 @@ public class UsuarioDAO{
 		Session s=HbnConexion.getSessionFactory().getCurrentSession();
 		s.beginTransaction();
 		UsuarioDTO usuario=(UsuarioDTO)s.createCriteria(UsuarioDTO.class)
-										.add(Restrictions.eq("user", user.getUser())).uniqueResult();
+										.add(Restrictions.eq("user", user.getUser()))
+										.uniqueResult();
 		s.getTransaction().commit();
 		
 		return usuario;

@@ -7,12 +7,10 @@ import org.apache.log4j.Logger;
 import com.intranet.bean.PerfilDTO;
 import com.intranet.bean.UsuarioDTO;
 import com.intranet.seguridad.dao.UsuarioDAO;
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
 
-public class LoginAction extends ActionSupport {
+public class LoginAction {
 	
-	private static final long serialVersionUID = 1L;
+//	private static final long serialVersionUID = 1L;
 	private UsuarioDTO usuario;
 	private PerfilDTO perfil;
 	private Map<String,Object> sesion;
@@ -49,16 +47,9 @@ public class LoginAction extends ActionSupport {
 		
 		if(usuario2!=null){
 			
-			sesion=ActionContext.getContext().getSession();
 			sesion.put("s_usuario", usuario2);
 			Logger.getLogger(LoginAction.class).info("Usuario!=null");
-			return "alumno";
-//			if(perfil2.getIdPerfil()==1)
-//				return "alumno";
-//			else if(perfil2.getIdPerfil()==2)
-//				return "profesor";
-//			else if(perfil2.getIdPerfil()==3)
-//				return "secretaria";
+			return "success";
 		}
 		return "error";
 	}

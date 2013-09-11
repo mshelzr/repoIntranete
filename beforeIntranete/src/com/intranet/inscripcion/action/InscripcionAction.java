@@ -1,6 +1,7 @@
 package com.intranet.inscripcion.action;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -8,10 +9,8 @@ import java.util.Map;
 import com.intranet.bean.CursoDTO;
 import com.intranet.bean.UsuarioDTO;
 import com.intranet.inscripcion.dao.InscripcionDAO;
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
 
-public class InscripcionAction extends ActionSupport{
+public class InscripcionAction {
 	
 	private static final long serialVersionUID = 1L;
 	private List<CursoDTO> listaCursosAnteriores;
@@ -23,11 +22,14 @@ public class InscripcionAction extends ActionSupport{
 	private List<CursoDTO> listaB=new ArrayList<CursoDTO>();
 	private int cantcursos=0;
 	
-	private Map<String,Object> sesion=ActionContext.getContext().getSession();
+	private Map<String,Object> sesion=new HashMap<String,Object>();
 	private UsuarioDTO usuO=(UsuarioDTO)sesion.get("a_usuario");
 	
 	public String execute(){
+		
 			InscripcionDAO inscriService=new InscripcionDAO();
+			
+			//Llenando los cursos a poder matricularse
 			listaCursosAnteriores=inscriService.obtenerCursosActuales(usuO);
 			listaCursosAnteriores.addAll(inscriService.obtenerCursosAnteriores2(usuO));
 			listaCursosActuales=inscriService.obtenerCursosActuales(usuO);
@@ -65,8 +67,8 @@ public class InscripcionAction extends ActionSupport{
 				}
 			}else if(!listaVaciaB.isEmpty()){
 				if(!listaCursosAnteriores.isEmpty())
-					addActionError("Escoge uno de la lista A");
-				else {
+//					addActionError("Escoge uno de la lista A");
+//				else {
 				for(CursoDTO curso: listaVaciaB){
 					curso=inscriService.obtenerCursoBean(curso);
 					listaB.add(curso);
@@ -83,12 +85,12 @@ public class InscripcionAction extends ActionSupport{
 							}
 						}
 					}
-				}
+//				}
 				}//if segundo
 			}else if(!listaVaciaC.isEmpty()){
 				if(!listaCursosAnteriores.isEmpty() ||!listaCursosActuales.isEmpty() )
-					addActionError("Completa el registro de la listas anteriores");
-				else {
+//					addActionError("Completa el registro de la listas anteriores");
+//				else {
 				for(CursoDTO curso: listaVaciaB){
 					curso=inscriService.obtenerCursoBean(curso);
 					listaB.add(curso);
@@ -105,22 +107,16 @@ public class InscripcionAction extends ActionSupport{
 							}
 						}
 					}
-				}
+//				}
 			}}
-			else		
-				addActionError("Elija los antecesores");				
-		else//<2
-			addActionError("Supero el máximo de cursos a inscribirse");
-
 		sesion.put("x_curso", listaB);
 		
-		return SUCCESS;
+		return null;
 	}
-	@Override
 	public void validate(){
 		System.out.println(listaB.size());
 		if(listaB.size()>7){
-			addActionError("El Alumno debe matricularse exactamente en 7 cursos");
+//			addActionError("El Alumno debe matricularse exactamente en 7 cursos");
 		}
 	}
 	
@@ -133,7 +129,7 @@ public class InscripcionAction extends ActionSupport{
 	
 	public String inscribir(){
 			System.out.println("Dentro de inscribirse");
-		return SUCCESS;
+		return null;
 	}
 	public int getCantcursos() {
 		return cantcursos;
