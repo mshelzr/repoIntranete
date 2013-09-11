@@ -7,10 +7,10 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 <h:body>
 	<h:form>
-		<h:inputText value="#{loginAction.user}"/>
-		<h:inputSecret value="#{loginAction.pwd}"/>
+		<h:inputText value="#{loginAction.usuario.user}"/>
+		<h:inputSecret value="#{loginAction.usuario.password}"/>
 		<h:commandButton action="#{loginAction.execute}" value="Ingresar">
-<!-- 		<f:setPropertyActionListener target="#{loginAction.usuario}" value="#{usuariox}" /> -->
+		<f:setPropertyActionListener target="#{loginAction.usuario}" value="#{usuario}" />
 		</h:commandButton>
 	
 	</h:form>
