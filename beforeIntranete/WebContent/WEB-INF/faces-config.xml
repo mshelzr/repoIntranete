@@ -9,13 +9,23 @@
 		<managed-bean-name>loginAction</managed-bean-name>
 		<managed-bean-class>com.intranet.seguridad.action.LoginAction</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
+<!-- 		<managed-property> -->
+<!-- 			<property-name>usuario</property-name> -->
+<!-- 			<property-class>com.intranet.bean.UsuarioDTO</property-class> -->
+<!-- 			<value>#{usuariox}</value> -->
+<!-- 		</managed-property> -->
 	</managed-bean>
+<!-- 	<managed-bean> -->
+<!-- 		<managed-bean-name>usuariox</managed-bean-name> -->
+<!-- 		<managed-bean-class>com.intranet.bean.UsuarioDTO</managed-bean-class> -->
+<!-- 		<managed-bean-scope>none</managed-bean-scope> -->
+<!-- 	</managed-bean> -->
 	<navigation-rule>
-		<display-name>login.html</display-name>
-		<from-view-id>/login.html</from-view-id>
+<!-- 		<display-name>login.xhtml</display-name> -->
+<!-- 		<from-view-id>/login.xhtml</from-view-id> -->
 		<navigation-case>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/WelcomeAlumno.html</to-view-id>
+			<to-view-id>/WelcomeAlumno.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>

@@ -5,10 +5,14 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
 	<h:form>
-		<h:inputText value="#{loginAction.usuario.user}"/>
-		<h:inputSecret value="#{loginAction.usuario.password}"/>
-		<h:commandButton action="#{loginAction.execute}"/>
+		<h:inputText value="#{loginAction.user}"/>
+		<h:inputSecret value="#{loginAction.pwd}"/>
+		<h:commandButton action="#{loginAction.execute}" value="Ingresar">
+<!-- 		<f:setPropertyActionListener target="#{loginAction.usuario}" value="#{usuariox}" /> -->
+		</h:commandButton>
 	
 	</h:form>
+</h:body>		
 </html>
