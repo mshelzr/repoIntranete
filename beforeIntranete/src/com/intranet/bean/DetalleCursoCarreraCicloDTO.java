@@ -7,7 +7,6 @@ package com.intranet.bean;
  */
 public class DetalleCursoCarreraCicloDTO implements java.io.Serializable {
 
-	private DetalleCursoCarreraCicloDTOId id;
 	private CicloDTO cicloDTO;
 	private CursoDTO cursoDTO;
 	private CarreraDTO carreraDTO;
@@ -15,20 +14,10 @@ public class DetalleCursoCarreraCicloDTO implements java.io.Serializable {
 	public DetalleCursoCarreraCicloDTO() {
 	}
 
-	public DetalleCursoCarreraCicloDTO(DetalleCursoCarreraCicloDTOId id,
-			CicloDTO cicloDTO, CursoDTO cursoDTO, CarreraDTO carreraDTO) {
-		this.id = id;
+	public DetalleCursoCarreraCicloDTO(CicloDTO cicloDTO, CursoDTO cursoDTO, CarreraDTO carreraDTO) {
 		this.cicloDTO = cicloDTO;
 		this.cursoDTO = cursoDTO;
 		this.carreraDTO = carreraDTO;
-	}
-
-	public DetalleCursoCarreraCicloDTOId getId() {
-		return this.id;
-	}
-
-	public void setId(DetalleCursoCarreraCicloDTOId id) {
-		this.id = id;
 	}
 
 	public CicloDTO getCicloDTO() {

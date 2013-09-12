@@ -1,8 +1,7 @@
 package com.intranet.seguridad.action;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-
-import org.apache.log4j.Logger;
 
 import com.intranet.bean.UsuarioDTO;
 import com.intranet.seguridad.dao.UsuarioDAO;
@@ -18,18 +17,17 @@ public class LoginAction {
 		this.usuario = usuario;
 	}
 	public String execute(){
-		//Modificando
 		UsuarioDAO usuarioDao=new UsuarioDAO();
-//		PerfilDAO perfilDao=new PerfilDAO();
 		
 		UsuarioDTO usuarioValido=usuarioDao.validarUsuario(usuario);
-		FacesContext fc=FacesContext.getCurrentInstance();
-		fc.getExternalContext().getSessionMap().put("usuario",usuario);
 		
 		if(usuarioValido!=null){
-			Logger.getLogger(LoginAction.class).info("Usuario!=null");
+			FacesContext fc=FacesContext.getCurrentInstance();
+			fc.getExternalContext().getSessionMap().put("s_usuario",usuario);
+			
 			return "success";
 		}
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Logueo de usuario", "Cuenta incorrecta"));
 		return "error";
 	}
 

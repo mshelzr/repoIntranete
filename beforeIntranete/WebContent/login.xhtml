@@ -1,18 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+<script type="text/javascript" src="js/jquery.js"></script>
+</h:head>
 <h:body>
-	<h:form>
-		<h:inputText value="#{loginAction.usuario.user}"/>
-		<h:inputSecret value="#{loginAction.usuario.password}"/>
+<script type="text/javascript">
+$(document).ready(function(){
+    document.getElementById('form1:UserName').value='alumno';
+    document.getElementById('form1:Password').value='uno';
+        
+});
+</script>
+	<p:messages  id="mesagges" showDetail="true" autoUpdate="true" closable="true"/>
+	<h:form id="form1">
+		<p:inputText id="UserName" value="#{loginAction.usuario.user}" />
+		<br />
+		<h:inputSecret id="Password" value="#{loginAction.usuario.password}" />
+		<br />
 		<h:commandButton action="#{loginAction.execute}" value="Ingresar">
-		<f:setPropertyActionListener target="#{loginAction.usuario}" value="#{usuario}" />
+			<f:setPropertyActionListener target="#{loginAction.usuario}" value="#{usuario}" />
 		</h:commandButton>
-	
+
 	</h:form>
-</h:body>		
+</h:body>
 </html>

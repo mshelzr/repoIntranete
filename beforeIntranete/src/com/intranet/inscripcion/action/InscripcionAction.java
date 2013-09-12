@@ -1,141 +1,65 @@
 package com.intranet.inscripcion.action;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
+
+import javax.faces.context.FacesContext;
 
 import com.intranet.bean.CursoDTO;
 import com.intranet.bean.UsuarioDTO;
 import com.intranet.inscripcion.dao.InscripcionDAO;
 
 public class InscripcionAction {
-	
-	private static final long serialVersionUID = 1L;
-	private List<CursoDTO> listaCursosAnteriores;
-	private List<CursoDTO> listaCursosActuales;
-	private List<CursoDTO> listaCursosFuturos;
+
+	private List<CursoDTO> cursosJalados;
+	private List<CursoDTO> cursosFaltantesPorLlevar;
+	private List<CursoDTO> cursosDelSigtCiclo;
+	private int cursoFaltantesJust4Parameter;
 	private List<CursoDTO> listaVaciaA;
 	private List<CursoDTO> listaVaciaB;
 	private List<CursoDTO> listaVaciaC;
 	private List<CursoDTO> listaB=new ArrayList<CursoDTO>();
-	private int cantcursos=0;
-	
-	private Map<String,Object> sesion=new HashMap<String,Object>();
-	private UsuarioDTO usuO=(UsuarioDTO)sesion.get("a_usuario");
-	
-	public String execute(){
-		
-			InscripcionDAO inscriService=new InscripcionDAO();
-			
-			//Llenando los cursos a poder matricularse
-			listaCursosAnteriores=inscriService.obtenerCursosActuales(usuO);
-			listaCursosAnteriores.addAll(inscriService.obtenerCursosAnteriores2(usuO));
-			listaCursosActuales=inscriService.obtenerCursosActuales(usuO);
-			listaCursosActuales.addAll(inscriService.obtenerCursosActuales2(usuO));
-			listaCursosFuturos=inscriService.obtenerCursosFuturos(usuO);
+	private int cantCursosPermitidos=0;
 
-			cantcursos=inscriService.obtenerDatosPreInscripcion(usuO);
-			
-			if(inscriService.obtenerPromAntCiclo(usuO)<12.5)
-				cantcursos=6;
+	public String execute(){
+
+		InscripcionDAO inscripcionDao=new InscripcionDAO();
+
+		//Jalamos y cargamos el objeto usuario, logueado en la sesion
+		FacesContext ctx=FacesContext.getCurrentInstance();
+		UsuarioDTO usuario=(UsuarioDTO)ctx.getExternalContext().getSessionMap().get("s_usuario");
+
+		//Llenando los cursos que puede llevar el alumno
+		cursosJalados=inscripcionDao.getCursosJalados(usuario);
+		cursosFaltantesPorLlevar=inscripcionDao.getCursosRestantes(usuario);
+
+		//Valores necesario para la formula
+		cursoFaltantesJust4Parameter=inscripcionDao.getCantidadDeCursosRestantes4Parameter(usuario);
+		cantCursosPermitidos=inscripcionDao.getCantidadDeCursosRestantes4Parameter(usuario);
+		//Si el resultado es afirmativo, se carga la sigt lista
+		cursosDelSigtCiclo=inscripcionDao.getCursosSiguientes(usuario);
 		
 		return "exito";
 	}
 	public String verificarAgregarCursos(){
-		InscripcionDAO inscriService=new InscripcionDAO();
-		System.out.println(listaB.size()+": es menor que 2");
-		if(listaB.size()<2)
-			if(!listaVaciaA.isEmpty()){
-				for(CursoDTO curso: listaVaciaA){
-					curso=inscriService.obtenerCursoBean(curso);
-					listaB.add(curso);
-					System.out.println("Lista A: "+listaB.size()+"\t"+curso.getIdCurso()+"\t"+curso.getDescCurso());
-					
-					ListIterator<CursoDTO> litr = listaCursosAnteriores.listIterator(); 
-					while(litr.hasNext()) { 
-					CursoDTO element = litr.next(); 
-						ListIterator<CursoDTO> litr2 = listaB.listIterator(); 
-						while(litr2.hasNext()) { 
-						CursoDTO element2 = litr2.next();
-							if(element.getIdCurso()==element2.getIdCurso()){
-								litr.remove();
-							}
-						}
-					}
-				}
-			}else if(!listaVaciaB.isEmpty()){
-				if(!listaCursosAnteriores.isEmpty())
-//					addActionError("Escoge uno de la lista A");
-//				else {
-				for(CursoDTO curso: listaVaciaB){
-					curso=inscriService.obtenerCursoBean(curso);
-					listaB.add(curso);
-					System.out.println("Lista B: "+listaB.size()+"\t"+curso.getIdCurso()+"\t"+curso.getDescCurso());
-					
-					ListIterator<CursoDTO> litr = listaCursosActuales.listIterator(); 
-					while(litr.hasNext()) { 
-					CursoDTO element = litr.next(); 
-						ListIterator<CursoDTO> litr2 = listaB.listIterator(); 
-						while(litr2.hasNext()) { 
-						CursoDTO element2 = litr2.next();
-							if(element.getIdCurso()==element2.getIdCurso()){
-								litr.remove();
-							}
-						}
-					}
-//				}
-				}//if segundo
-			}else if(!listaVaciaC.isEmpty()){
-				if(!listaCursosAnteriores.isEmpty() ||!listaCursosActuales.isEmpty() )
-//					addActionError("Completa el registro de la listas anteriores");
-//				else {
-				for(CursoDTO curso: listaVaciaB){
-					curso=inscriService.obtenerCursoBean(curso);
-					listaB.add(curso);
-					System.out.println("Lista C: "+listaB.size()+"\t"+curso.getIdCurso()+"\t"+curso.getDescCurso());
-					
-					ListIterator<CursoDTO> litr = listaCursosFuturos.listIterator(); 
-					while(litr.hasNext()) { 
-					CursoDTO element = litr.next(); 
-						ListIterator<CursoDTO> litr2 = listaB.listIterator(); 
-						while(litr2.hasNext()) { 
-						CursoDTO element2 = litr2.next();
-							if(element.getIdCurso()==element2.getIdCurso()){
-								litr.remove();
-							}
-						}
-					}
-//				}
-			}}
-		sesion.put("x_curso", listaB);
-		
 		return null;
 	}
 	public void validate(){
 		System.out.println(listaB.size());
 		if(listaB.size()>7){
-//			addActionError("El Alumno debe matricularse exactamente en 7 cursos");
+			//			addActionError("El Alumno debe matricularse exactamente en 7 cursos");
 		}
 	}
-	
-	public void setListaCursosAnteriores(List<CursoDTO> listaCursosAnteriores) {
-		this.listaCursosAnteriores = listaCursosAnteriores;
-	}
-	public List<CursoDTO> getListaCursosAnteriores() {
-		return listaCursosAnteriores;
-	}
-	
+
 	public String inscribir(){
-			System.out.println("Dentro de inscribirse");
+		System.out.println("Dentro de inscribirse");
 		return null;
 	}
 	public int getCantcursos() {
-		return cantcursos;
+		return cantCursosPermitidos;
 	}
 	public void setCantcursos(int cantcursos) {
-		this.cantcursos = cantcursos;
+		this.cantCursosPermitidos = cantcursos;
 	}
 	public List<CursoDTO> getListaVaciaA() {
 		return listaVaciaA;
@@ -155,17 +79,44 @@ public class InscripcionAction {
 	public void setListaVaciaC(List<CursoDTO> listaVaciaC) {
 		this.listaVaciaC = listaVaciaC;
 	}
-	public List<CursoDTO> getListaCursosActuales() {
-		return listaCursosActuales;
+
+	//Nuevos getters y setters
+
+	public List<CursoDTO> getCursosJalados() {
+		return cursosJalados;
 	}
-	public void setListaCursosActuales(List<CursoDTO> listaCursosActuales) {
-		this.listaCursosActuales = listaCursosActuales;
+	public void setCursosJalados(List<CursoDTO> cursosJalados) {
+		this.cursosJalados = cursosJalados;
 	}
-	public List<CursoDTO> getListaCursosFuturos() {
-		return listaCursosFuturos;
+	public List<CursoDTO> getCursosFaltantesPorLlevar() {
+		return cursosFaltantesPorLlevar;
 	}
-	public void setListaCursosFuturos(List<CursoDTO> listaCursosFuturos) {
-		this.listaCursosFuturos = listaCursosFuturos;
+	public void setCursosFaltantesPorLlevar(List<CursoDTO> cursosFaltantesPorLlevar) {
+		this.cursosFaltantesPorLlevar = cursosFaltantesPorLlevar;
+	}
+	public List<CursoDTO> getCursosDelSigtCiclo() {
+		return cursosDelSigtCiclo;
+	}
+	public void setCursosDelSigtCiclo(List<CursoDTO> cursosDelSigtCiclo) {
+		this.cursosDelSigtCiclo = cursosDelSigtCiclo;
+	}
+	public int getCursoFaltantesJust4Parameter() {
+		return cursoFaltantesJust4Parameter;
+	}
+	public void setCursoFaltantesJust4Parameter(int cursoFaltantesJust4Parameter) {
+		this.cursoFaltantesJust4Parameter = cursoFaltantesJust4Parameter;
+	}
+	public List<CursoDTO> getListaB() {
+		return listaB;
+	}
+	public void setListaB(List<CursoDTO> listaB) {
+		this.listaB = listaB;
+	}
+	public int getCantCursosPermitidos() {
+		return cantCursosPermitidos;
+	}
+	public void setCantCursosPermitidos(int cantCursosPermitidos) {
+		this.cantCursosPermitidos = cantCursosPermitidos;
 	}
 
 }

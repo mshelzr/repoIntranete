@@ -4,13 +4,9 @@
 <!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.intranet.bean.DetalleInscriCursoDTO" table="detalle_inscricurso" catalog="bdintranete">
-        <composite-id name="id" class="com.intranet.bean.DetalleInscriCursoDTOId">
-            <key-property name="idInscripcion" type="int">
-                <column name="idInscripcion" />
-            </key-property>
-            <key-property name="idCursoCompuesto" type="int">
-                <column name="idCursoCompuesto" />
-            </key-property>
+        <composite-id>
+			<key-many-to-one name="cursoCompuestoDTO" column="idCursoCompuesto" class="com.intranet.bean.CursoCompuestoDTO"></key-many-to-one>
+			<key-many-to-one name="inscripcionDTO" column="idInscripcion" class="com.intranet.bean.InscripcionDTO"></key-many-to-one>
         </composite-id>
         <many-to-one name="cursoCompuestoDTO" class="com.intranet.bean.CursoCompuestoDTO" update="false" insert="false" fetch="select">
             <column name="idCursoCompuesto" not-null="true" />
