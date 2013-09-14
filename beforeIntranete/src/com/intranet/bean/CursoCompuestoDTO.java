@@ -1,6 +1,6 @@
 package com.intranet.bean;
 
-// Generated 10-sep-2013 6:50:20 by Hibernate Tools 4.0.0
+// Generated 14-sep-2013 7:16:37 by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +16,7 @@ public class CursoCompuestoDTO implements java.io.Serializable {
 	private SeccionDTO seccionDTO;
 	private PeriodoDTO periodoDTO;
 	private double notaEncuesta;
+	private Integer limiteEstudiantes;
 	private Set<NotaDTO> notaDTOs = new HashSet<NotaDTO>(0);
 	private Set<HorarioDTO> horarioDTOs = new HashSet<HorarioDTO>(0);
 	private Set<DetalleInscriCursoDTO> detalleInscriCursoDTOs = new HashSet<DetalleInscriCursoDTO>(
@@ -35,7 +36,8 @@ public class CursoCompuestoDTO implements java.io.Serializable {
 
 	public CursoCompuestoDTO(ProfesorDTO profesorDTO, CursoDTO cursoDTO,
 			SeccionDTO seccionDTO, PeriodoDTO periodoDTO, double notaEncuesta,
-			Set<NotaDTO> notaDTOs, Set<HorarioDTO> horarioDTOs,
+			Integer limiteEstudiantes, Set<NotaDTO> notaDTOs,
+			Set<HorarioDTO> horarioDTOs,
 			Set<DetalleInscriCursoDTO> detalleInscriCursoDTOs,
 			Set<AsistenciaDTO> asistenciaDTOs) {
 		this.profesorDTO = profesorDTO;
@@ -43,6 +45,7 @@ public class CursoCompuestoDTO implements java.io.Serializable {
 		this.seccionDTO = seccionDTO;
 		this.periodoDTO = periodoDTO;
 		this.notaEncuesta = notaEncuesta;
+		this.limiteEstudiantes = limiteEstudiantes;
 		this.notaDTOs = notaDTOs;
 		this.horarioDTOs = horarioDTOs;
 		this.detalleInscriCursoDTOs = detalleInscriCursoDTOs;
@@ -95,6 +98,14 @@ public class CursoCompuestoDTO implements java.io.Serializable {
 
 	public void setNotaEncuesta(double notaEncuesta) {
 		this.notaEncuesta = notaEncuesta;
+	}
+
+	public Integer getLimiteEstudiantes() {
+		return this.limiteEstudiantes;
+	}
+
+	public void setLimiteEstudiantes(Integer limiteEstudiantes) {
+		this.limiteEstudiantes = limiteEstudiantes;
 	}
 
 	public Set<NotaDTO> getNotaDTOs() {

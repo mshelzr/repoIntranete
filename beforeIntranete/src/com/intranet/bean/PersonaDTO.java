@@ -1,6 +1,6 @@
 package com.intranet.bean;
 
-// Generated 10-sep-2013 6:50:20 by Hibernate Tools 4.0.0
+// Generated 14-sep-2013 7:16:37 by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +18,6 @@ public class PersonaDTO implements java.io.Serializable {
 	private String direcPersona;
 	private byte[] foto;
 	private Set<ProfesorDTO> profesorDTOs = new HashSet<ProfesorDTO>(0);
-	private Set<AsistenciaDTO> asistenciaDTOs = new HashSet<AsistenciaDTO>(0);
 	private Set<AlumnoDTO> alumnoDTOs = new HashSet<AlumnoDTO>(0);
 
 	public PersonaDTO() {
@@ -26,8 +25,7 @@ public class PersonaDTO implements java.io.Serializable {
 
 	public PersonaDTO(String nomPersona, String apePersona, int dniPersona,
 			int telfPersona, String direcPersona, byte[] foto,
-			Set<ProfesorDTO> profesorDTOs, Set<AsistenciaDTO> asistenciaDTOs,
-			Set<AlumnoDTO> alumnoDTOs) {
+			Set<ProfesorDTO> profesorDTOs, Set<AlumnoDTO> alumnoDTOs) {
 		this.nomPersona = nomPersona;
 		this.apePersona = apePersona;
 		this.dniPersona = dniPersona;
@@ -35,7 +33,6 @@ public class PersonaDTO implements java.io.Serializable {
 		this.direcPersona = direcPersona;
 		this.foto = foto;
 		this.profesorDTOs = profesorDTOs;
-		this.asistenciaDTOs = asistenciaDTOs;
 		this.alumnoDTOs = alumnoDTOs;
 	}
 
@@ -101,14 +98,6 @@ public class PersonaDTO implements java.io.Serializable {
 
 	public void setProfesorDTOs(Set<ProfesorDTO> profesorDTOs) {
 		this.profesorDTOs = profesorDTOs;
-	}
-
-	public Set<AsistenciaDTO> getAsistenciaDTOs() {
-		return this.asistenciaDTOs;
-	}
-
-	public void setAsistenciaDTOs(Set<AsistenciaDTO> asistenciaDTOs) {
-		this.asistenciaDTOs = asistenciaDTOs;
 	}
 
 	public Set<AlumnoDTO> getAlumnoDTOs() {

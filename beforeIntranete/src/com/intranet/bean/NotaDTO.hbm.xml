@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<!-- Generated 14-sep-2013 7:16:38 by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.intranet.bean.NotaDTO" table="nota" catalog="bdintranete">
         <id name="idNota" type="int">
@@ -11,11 +11,11 @@
         <many-to-one name="cursoCompuestoDTO" class="com.intranet.bean.CursoCompuestoDTO" fetch="select">
             <column name="idCursoCompuesto" not-null="true" />
         </many-to-one>
-        <many-to-one name="inscripcionDTO" class="com.intranet.bean.InscripcionDTO" fetch="select">
-            <column name="idInscripcion" not-null="true" />
-        </many-to-one>
         <many-to-one name="pesoNotaDTO" class="com.intranet.bean.PesoNotaDTO" fetch="select">
             <column name="idPesoNota" not-null="true" />
+        </many-to-one>
+        <many-to-one name="inscripcionAlumnoDTO" class="com.intranet.bean.InscripcionAlumnoDTO" fetch="select">
+            <column name="idInscripcionAlumno" not-null="true" />
         </many-to-one>
         <property name="nota" type="double">
             <column name="nota" precision="22" scale="0" />

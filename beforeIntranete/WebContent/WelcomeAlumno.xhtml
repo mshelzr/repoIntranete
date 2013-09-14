@@ -10,6 +10,8 @@
 	<h:outputLabel>Bienvenido : </h:outputLabel>
 	<h:outputText value="#{loginAction.usuario.user}" />
 	<br/>
-	<h:outputLink value="InscripcionAlumno.xhtml">Ir a Inscripcion</h:outputLink>
+	<h:form>
+	<h:commandLink action="#{inscripcionAction.execute}" value="Inscripcion" />
+	</h:form>
 </h:body>
 </html>

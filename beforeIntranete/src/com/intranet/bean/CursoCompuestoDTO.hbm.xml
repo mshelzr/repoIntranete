@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<!-- Generated 14-sep-2013 7:16:38 by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.intranet.bean.CursoCompuestoDTO" table="cursocompuesto" catalog="bdintranete">
         <id name="idCursoCompuesto" type="int">
@@ -22,6 +22,9 @@
         </many-to-one>
         <property name="notaEncuesta" type="double">
             <column name="nota_encuesta" />
+        </property>
+        <property name="limiteEstudiantes" type="java.lang.Integer">
+            <column name="limite_estudiantes" />
         </property>
         <set name="notaDTOs" table="nota" inverse="true" lazy="true" fetch="select">
             <key>

@@ -1,6 +1,6 @@
 package com.intranet.bean;
 
-// Generated 10-sep-2013 6:50:20 by Hibernate Tools 4.0.0
+// Generated 14-sep-2013 7:16:37 by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,17 +12,19 @@ public class CicloDTO implements java.io.Serializable {
 
 	private int idCiclo;
 	private String creditosDispon;
-	private Set<InscripcionDTO> inscripcionDTOs = new HashSet<InscripcionDTO>(0);
+	private Set<InscripcionAlumnoDTO> inscripcionAlumnoDTOs = new HashSet<InscripcionAlumnoDTO>(
+			0);
 	private Set<DetalleCursoCarreraCicloDTO> detalleCursoCarreraCicloDTOs = new HashSet<DetalleCursoCarreraCicloDTO>(
 			0);
 
 	public CicloDTO() {
 	}
 
-	public CicloDTO(String creditosDispon, Set<InscripcionDTO> inscripcionDTOs,
+	public CicloDTO(String creditosDispon,
+			Set<InscripcionAlumnoDTO> inscripcionAlumnoDTOs,
 			Set<DetalleCursoCarreraCicloDTO> detalleCursoCarreraCicloDTOs) {
 		this.creditosDispon = creditosDispon;
-		this.inscripcionDTOs = inscripcionDTOs;
+		this.inscripcionAlumnoDTOs = inscripcionAlumnoDTOs;
 		this.detalleCursoCarreraCicloDTOs = detalleCursoCarreraCicloDTOs;
 	}
 
@@ -42,12 +44,13 @@ public class CicloDTO implements java.io.Serializable {
 		this.creditosDispon = creditosDispon;
 	}
 
-	public Set<InscripcionDTO> getInscripcionDTOs() {
-		return this.inscripcionDTOs;
+	public Set<InscripcionAlumnoDTO> getInscripcionAlumnoDTOs() {
+		return this.inscripcionAlumnoDTOs;
 	}
 
-	public void setInscripcionDTOs(Set<InscripcionDTO> inscripcionDTOs) {
-		this.inscripcionDTOs = inscripcionDTOs;
+	public void setInscripcionAlumnoDTOs(
+			Set<InscripcionAlumnoDTO> inscripcionAlumnoDTOs) {
+		this.inscripcionAlumnoDTOs = inscripcionAlumnoDTOs;
 	}
 
 	public Set<DetalleCursoCarreraCicloDTO> getDetalleCursoCarreraCicloDTOs() {

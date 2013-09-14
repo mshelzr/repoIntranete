@@ -38,5 +38,6 @@
 		<mapping resource="com/intranet/bean/SeccionDTO.hbm.xml"/>
 		<mapping resource="com/intranet/bean/TipoNotaDTO.hbm.xml"/>
 		<mapping resource="com/intranet/bean/UsuarioDTO.hbm.xml"/>
+		<mapping resource="com/intranet/bean/InscripcionAlumnoDTO.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>

@@ -1,6 +1,6 @@
 package com.intranet.bean;
 
-// Generated 10-sep-2013 6:50:20 by Hibernate Tools 4.0.0
+// Generated 14-sep-2013 7:16:37 by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,38 +11,28 @@ import java.util.Set;
 public class InscripcionDTO implements java.io.Serializable {
 
 	private int idInscripcion;
-	private CicloDTO cicloDTO;
-	private AlumnoDTO alumnoDTO;
 	private PeriodoDTO periodoDTO;
-	private String fecInscrito;
-	private double promedioGenral;
-	private int aprobado;
-	private Set<NotaDTO> notaDTOs = new HashSet<NotaDTO>(0);
-	private Set<DetalleInscriCursoDTO> detalleInscriCursoDTOs = new HashSet<DetalleInscriCursoDTO>(
+	private String fechaInicio;
+	private String fechaCierre;
+	private Set<InscripcionAlumnoDTO> inscripcionAlumnoDTOs = new HashSet<InscripcionAlumnoDTO>(
 			0);
 
 	public InscripcionDTO() {
 	}
 
-	public InscripcionDTO(CicloDTO cicloDTO, AlumnoDTO alumnoDTO,
-			PeriodoDTO periodoDTO) {
-		this.cicloDTO = cicloDTO;
-		this.alumnoDTO = alumnoDTO;
+	public InscripcionDTO(int idInscripcion, PeriodoDTO periodoDTO) {
+		this.idInscripcion = idInscripcion;
 		this.periodoDTO = periodoDTO;
 	}
 
-	public InscripcionDTO(CicloDTO cicloDTO, AlumnoDTO alumnoDTO,
-			PeriodoDTO periodoDTO, String fecInscrito, double promedioGenral,
-			int aprobado, Set<NotaDTO> notaDTOs,
-			Set<DetalleInscriCursoDTO> detalleInscriCursoDTOs) {
-		this.cicloDTO = cicloDTO;
-		this.alumnoDTO = alumnoDTO;
+	public InscripcionDTO(int idInscripcion, PeriodoDTO periodoDTO,
+			String fechaInicio, String fechaCierre,
+			Set<InscripcionAlumnoDTO> inscripcionAlumnoDTOs) {
+		this.idInscripcion = idInscripcion;
 		this.periodoDTO = periodoDTO;
-		this.fecInscrito = fecInscrito;
-		this.promedioGenral = promedioGenral;
-		this.aprobado = aprobado;
-		this.notaDTOs = notaDTOs;
-		this.detalleInscriCursoDTOs = detalleInscriCursoDTOs;
+		this.fechaInicio = fechaInicio;
+		this.fechaCierre = fechaCierre;
+		this.inscripcionAlumnoDTOs = inscripcionAlumnoDTOs;
 	}
 
 	public int getIdInscripcion() {
@@ -53,22 +43,6 @@ public class InscripcionDTO implements java.io.Serializable {
 		this.idInscripcion = idInscripcion;
 	}
 
-	public CicloDTO getCicloDTO() {
-		return this.cicloDTO;
-	}
-
-	public void setCicloDTO(CicloDTO cicloDTO) {
-		this.cicloDTO = cicloDTO;
-	}
-
-	public AlumnoDTO getAlumnoDTO() {
-		return this.alumnoDTO;
-	}
-
-	public void setAlumnoDTO(AlumnoDTO alumnoDTO) {
-		this.alumnoDTO = alumnoDTO;
-	}
-
 	public PeriodoDTO getPeriodoDTO() {
 		return this.periodoDTO;
 	}
@@ -77,45 +51,29 @@ public class InscripcionDTO implements java.io.Serializable {
 		this.periodoDTO = periodoDTO;
 	}
 
-	public String getFecInscrito() {
-		return this.fecInscrito;
+	public String getFechaInicio() {
+		return this.fechaInicio;
 	}
 
-	public void setFecInscrito(String fecInscrito) {
-		this.fecInscrito = fecInscrito;
+	public void setFechaInicio(String fechaInicio) {
+		this.fechaInicio = fechaInicio;
 	}
 
-	public double getPromedioGenral() {
-		return this.promedioGenral;
+	public String getFechaCierre() {
+		return this.fechaCierre;
 	}
 
-	public void setPromedioGenral(double promedioGenral) {
-		this.promedioGenral = promedioGenral;
+	public void setFechaCierre(String fechaCierre) {
+		this.fechaCierre = fechaCierre;
 	}
 
-	public int getAprobado() {
-		return this.aprobado;
+	public Set<InscripcionAlumnoDTO> getInscripcionAlumnoDTOs() {
+		return this.inscripcionAlumnoDTOs;
 	}
 
-	public void setAprobado(int aprobado) {
-		this.aprobado = aprobado;
-	}
-
-	public Set<NotaDTO> getNotaDTOs() {
-		return this.notaDTOs;
-	}
-
-	public void setNotaDTOs(Set<NotaDTO> notaDTOs) {
-		this.notaDTOs = notaDTOs;
-	}
-
-	public Set<DetalleInscriCursoDTO> getDetalleInscriCursoDTOs() {
-		return this.detalleInscriCursoDTOs;
-	}
-
-	public void setDetalleInscriCursoDTOs(
-			Set<DetalleInscriCursoDTO> detalleInscriCursoDTOs) {
-		this.detalleInscriCursoDTOs = detalleInscriCursoDTOs;
+	public void setInscripcionAlumnoDTOs(
+			Set<InscripcionAlumnoDTO> inscripcionAlumnoDTOs) {
+		this.inscripcionAlumnoDTOs = inscripcionAlumnoDTOs;
 	}
 
 }

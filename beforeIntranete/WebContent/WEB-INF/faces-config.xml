@@ -19,13 +19,22 @@
 		<managed-bean-class>com.intranet.bean.UsuarioDTO</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>inscripcionAction</managed-bean-name>
+		<managed-bean-class>com.intranet.inscripcion.action.InscripcionAction</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 	<navigation-rule>
-		<display-name>login.xhtml</display-name>
-		<from-view-id>/login.xhtml</from-view-id>
 		<navigation-case>
+			<from-action>#{loginAction.execute}</from-action>
 			<from-outcome>success</from-outcome>
 			<to-view-id>/WelcomeAlumno.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-action>#{inscripcionAction.execute}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/InscripcionAlumno.xhtml</to-view-id>
+		</navigation-case>		
 		<navigation-case>
 			<from-outcome>error</from-outcome>
 			<to-view-id>/login.xhtml</to-view-id>

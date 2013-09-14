@@ -2,7 +2,11 @@
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13788864850780" configfile="/beforeIntranete/WebContent/WEB-INF/faces-config.xml">
   <nodes xsi:type="pageflow:PFPage" name="login.html" x="122" y="178" id="pf13788894283591" path="/login.html"/>
   <nodes xsi:type="pageflow:PFPage" name="WelcomeAlumno.html" x="122" y="562" id="pf13788894283593" path="/WelcomeAlumno.html"/>
-  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="946" id="pf13789399149530" outlinks="pf13789399149531" path="*"/>
-  <nodes xsi:type="pageflow:PFPage" name="WelcomeAlumno.xhtml" x="338" y="946" id="pf13789399149532" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf13789399149531" path="/WelcomeAlumno.xhtml"/>
-  <links id="pf13789399149531" target="pf13789399149532" source="pf13789399149530" outcome="success"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="1330" id="pf13789399149530" outlinks="pf13789912747183 pf13789912747184 pf13789917301567" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="WelcomeAlumno.xhtml" id="pf13789912747185" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf13789912747183" path="/WelcomeAlumno.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" id="pf13789912747186" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf13789912747184" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="InscripcionAlumno.xhtml" id="pf13789917301568" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf13789917301567" path="/InscripcionAlumno.xhtml"/>
+  <links id="pf13789912747183" target="pf13789912747185" source="pf13789399149530" outcome="success" fromaction="#{loginAction.execute}"/>
+  <links id="pf13789912747184" target="pf13789912747186" source="pf13789399149530" outcome="error"/>
+  <links id="pf13789917301567" target="pf13789917301568" source="pf13789399149530" outcome="success" fromaction="#{inscripcionAction.execute}"/>
 </pageflow:Pageflow>

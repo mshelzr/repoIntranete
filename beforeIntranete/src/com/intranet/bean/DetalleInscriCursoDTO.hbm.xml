@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<!-- Generated 14-sep-2013 7:16:38 by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.intranet.bean.DetalleInscriCursoDTO" table="detalle_inscricurso" catalog="bdintranete">
         <composite-id>
-			<key-many-to-one name="cursoCompuestoDTO" column="idCursoCompuesto" class="com.intranet.bean.CursoCompuestoDTO"></key-many-to-one>
-			<key-many-to-one name="inscripcionDTO" column="idInscripcion" class="com.intranet.bean.InscripcionDTO"></key-many-to-one>
+        	<key-many-to-one name="cursoCompuestoDTO" column="idCursoCompuesto" class="com.intranet.bean.CursoCompuestoDTO"></key-many-to-one>
+        	<key-many-to-one name="inscripcionAlumnoDTO" column="idInscripcionAlumno" class="com.intranet.bean.InscripcionAlumnoDTO"></key-many-to-one>
         </composite-id>
         <many-to-one name="cursoCompuestoDTO" class="com.intranet.bean.CursoCompuestoDTO" update="false" insert="false" fetch="select">
             <column name="idCursoCompuesto" not-null="true" />
         </many-to-one>
-        <many-to-one name="inscripcionDTO" class="com.intranet.bean.InscripcionDTO" update="false" insert="false" fetch="select">
-            <column name="idInscripcion" not-null="true" />
+        <many-to-one name="inscripcionAlumnoDTO" class="com.intranet.bean.InscripcionAlumnoDTO" update="false" insert="false" fetch="select">
+            <column name="idInscripcionAlumno" not-null="true" />
         </many-to-one>
         <property name="promedioC" type="double">
             <column name="promedio_c" precision="22" scale="0" />

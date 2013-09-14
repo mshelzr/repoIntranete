@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 10-sep-2013 6:50:21 by Hibernate Tools 4.0.0 -->
+<!-- Generated 14-sep-2013 7:16:38 by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.intranet.bean.AlumnoDTO" table="alumno" catalog="bdintranete">
         <id name="idAlumno" type="int">
@@ -20,11 +20,11 @@
         <property name="descAlumno" type="string">
             <column name="descAlumno" length="45" />
         </property>
-        <set name="inscripcionDTOs" table="inscripcion" inverse="true" lazy="true" fetch="select">
+        <set name="inscripcionAlumnoDTOs" table="inscripcion_alumno" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idAlumno" not-null="true" />
             </key>
-            <one-to-many class="com.intranet.bean.InscripcionDTO" />
+            <one-to-many class="com.intranet.bean.InscripcionAlumnoDTO" />
         </set>
     </class>
 </hibernate-mapping>
