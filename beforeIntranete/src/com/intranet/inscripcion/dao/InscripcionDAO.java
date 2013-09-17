@@ -5,20 +5,21 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.intranet.bean.CursoDTO;
+import com.intranet.bean.CursoCompuestoDTO;
+import com.intranet.bean.HorarioDTO;
 import com.intranet.bean.UsuarioDTO;
 import com.intranet.util.HbnConexion;
 
 public class InscripcionDAO {
 	
 	@SuppressWarnings("unchecked")
-	public List<CursoDTO> getCursosJalados(UsuarioDTO usuario){
+	public List<CursoCompuestoDTO> getCursosJalados(UsuarioDTO usuario){
 		Session s=HbnConexion.getSessionFactory().getCurrentSession();
 		s.beginTransaction();
 		//Subquery separado
-		int qUltInscripcion=ultimaInscripcion(s,usuario);
+		int qUltInscripcion=inscripcionDelCicloAnterior(s,usuario);
 		//Query Principal
-		Query q=s.createQuery("SELECT cu FROM UsuarioDTO u JOIN u.alumnoDTOs a " +
+		Query q=s.createQuery("SELECT cc FROM UsuarioDTO u JOIN u.alumnoDTOs a " +
 				"JOIN a.inscripcionAlumnoDTOs i JOIN i.detalleInscriCursoDTOs dic " +
 				"JOIN dic.cursoCompuestoDTO cc JOIN cc.cursoDTO cu " +
 				"WHERE dic.promedioC<12.5 AND u.user=:usuario " +
@@ -26,21 +27,21 @@ public class InscripcionDAO {
 		q.setParameter("usuario", usuario.getUser());
 		q.setParameter("qUltimaInscripcion", qUltInscripcion);
 		
-		List<CursoDTO> cursos=(List<CursoDTO>)q.list();
+		List<CursoCompuestoDTO> cursos=(List<CursoCompuestoDTO>)q.list();
 		s.getTransaction().commit();
 		return cursos;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<CursoDTO> getCursosRestantes(UsuarioDTO usuario){
+	public List<CursoCompuestoDTO> getCursosRestantes(UsuarioDTO usuario){
 		Session s=HbnConexion.getSessionFactory().getCurrentSession();
 		s.beginTransaction();
 		//Subquery separado
-		int qUltInscripcion=ultimaInscripcion(s,usuario);
+		int qUltInscripcion=inscripcionDelCicloAnterior(s,usuario);
 		//Query Principal
-		Query q=s.createQuery("SELECT cu FROM UsuarioDTO u JOIN u.alumnoDTOs a " +
+		Query q=s.createQuery("SELECT cc FROM UsuarioDTO u JOIN u.alumnoDTOs a " +
 							"JOIN a.inscripcionAlumnoDTOs i JOIN a.carreraDTO c " +
-							"JOIN c.detalleCursoCarreraCicloDTOs dcc JOIN dcc.cursoDTO cu " +
+							"JOIN c.detalleCursoCarreraCicloDTOs dcc JOIN dcc.cursoDTO cu JOIN cu.cursoCompuestoDTOs cc " +
 							"WHERE cu.idCurso NOT IN (SELECT xcc.cursoDTO.idCurso FROM InscripcionAlumnoDTO xi " +
 								"JOIN xi.detalleInscriCursoDTOs xdic JOIN xdic.cursoCompuestoDTO xcc JOIN xcc.cursoDTO xcu JOIN xcu.detalleCursoCarreraCicloDTOs xdcc " +
 								"WHERE xi.idInscripcionAlumno=:qidInscripcion-1 and xdcc.carreraDTO.idCarrera=c.idCarrera and xdcc.cicloDTO.idCiclo=i.cicloDTO.idCiclo-1)" +  
@@ -62,20 +63,20 @@ public class InscripcionDAO {
 		q.setParameter("usuario", usuario.getUser());
 		q.setParameter("qidInscripcion", qUltInscripcion);
 		
-		List<CursoDTO> cursos=(List<CursoDTO>)q.list();
+		List<CursoCompuestoDTO> cursos=(List<CursoCompuestoDTO>)q.list();
 		s.getTransaction().commit();
 		return cursos;
 	}
 	@SuppressWarnings("unchecked")
-	public List<CursoDTO> getCursosSiguientes(UsuarioDTO usuario){
+	public List<CursoCompuestoDTO> getCursosSiguientes(UsuarioDTO usuario){
 		Session s=HbnConexion.getSessionFactory().getCurrentSession();
 		s.beginTransaction();
 		//Subquery separado
-		int qUltInscripcion=ultimaInscripcion(s,usuario);
+		int qUltInscripcion=inscripcionDelCicloAnterior(s,usuario);
 		//Query Principal
-		Query q=s.createQuery("SELECT cu FROM UsuarioDTO u JOIN u.alumnoDTOs a " +
+		Query q=s.createQuery("SELECT cc FROM UsuarioDTO u JOIN u.alumnoDTOs a " +
 				"JOIN a.inscripcionAlumnoDTOs i JOIN a.carreraDTO c " +
-				"JOIN c.detalleCursoCarreraCicloDTOs dcc JOIN dcc.cursoDTO cu " +
+				"JOIN c.detalleCursoCarreraCicloDTOs dcc JOIN dcc.cursoDTO cu JOIN cu.cursoCompuestoDTOs cc " +
 				"WHERE cu.categoriaCursoDTO.idCategoriaCurso NOT IN (SELECT xcu.categoriaCursoDTO.idCategoriaCurso " +
 					"FROM DetalleInscriCursoDTO dic JOIN dic.cursoCompuestoDTO cc JOIN cc.cursoDTO xcu " +
 					"WHERE dic.inscripcionAlumnoDTO.idInscripcionAlumno=i.idInscripcionAlumno AND dic.promedioC<12.5) " +
@@ -90,7 +91,7 @@ public class InscripcionDAO {
 		q.setParameter("usuario", usuario.getUser());
 		q.setParameter("qUltimaInscripcion", qUltInscripcion);
 		
-		List<CursoDTO> cursos=(List<CursoDTO>)q.list();
+		List<CursoCompuestoDTO> cursos=(List<CursoCompuestoDTO>)q.list();
 		s.getTransaction().commit();
 		return cursos;
 	}
@@ -100,11 +101,11 @@ public class InscripcionDAO {
 		Session s=HbnConexion.getSessionFactory().getCurrentSession();
 		s.beginTransaction();
 		//Subquery separado
-		int qUltInscripcion=ultimaInscripcion(s,usuario);
+		int qUltInscripcion=inscripcionDelCicloAnterior(s,usuario);
 		//Query Principal
 		Query q=s.createQuery("SELECT count(*) FROM UsuarioDTO u JOIN u.alumnoDTOs a " +
 				"JOIN a.inscripcionAlumnoDTOs i JOIN a.carreraDTO c " +
-				"JOIN c.detalleCursoCarreraCicloDTOs dcc JOIN dcc.cursoDTO cu " +
+				"JOIN c.detalleCursoCarreraCicloDTOs dcc JOIN dcc.cursoDTO cu JOIN cu.cursoCompuestoDTOs cc " +
 				"WHERE cu.idCurso NOT IN (SELECT xcc.cursoDTO.idCurso " +
 					"FROM DetalleInscriCursoDTO xdic JOIN xdic.cursoCompuestoDTO xcc " +
 					"WHERE xdic.inscripcionAlumnoDTO.idInscripcionAlumno=i.idInscripcionAlumno) " +
@@ -125,7 +126,7 @@ public class InscripcionDAO {
 		Session s=HbnConexion.getSessionFactory().getCurrentSession();
 		s.beginTransaction();
 		//Subquery separado
-		int qUltInscripcion=ultimaInscripcion(s,usuario);
+		int qUltInscripcion=inscripcionDelCicloAnterior(s,usuario);
 		//Query Principal
 		Query q=s.createQuery("Select i.aprobado " +
 				"FROM InscripcionAlumnoDTO i JOIN i.alumnoDTO a JOIN a.usuarioDTO u " +
@@ -138,16 +139,83 @@ public class InscripcionDAO {
 		return result;
 	}
 	
-	private int ultimaInscripcion(Session s, UsuarioDTO usuario){
+	@SuppressWarnings("unchecked")
+	public List<CursoCompuestoDTO> getCursosRecienteMatriculado(UsuarioDTO usuario){
+		Session s=HbnConexion.getSessionFactory().getCurrentSession();
+		s.beginTransaction();
+		//Subquery separado
+		int qUltInscripcion=ultimaInscripcion(s,usuario);
+		//Query Principal
+		Query q=s.createQuery("SELECT cc " +
+				"FROM CursoCompuestoDTO cc JOIN cc.detalleInscriCursoDTOs dic " +
+				"JOIN dic.inscripcionAlumnoDTO xi JOIN xi.alumnoDTO a JOIN a.usuarioDTO u " + 
+				"WHERE u.user=:usuario AND xi.idInscripcionAlumno=:nidInscripcion " +
+				"ORDER BY xi.inscripcionDTO.idInscripcion desc");
+		q.setParameter("usuario", usuario.getUser());
+		q.setParameter("nidInscripcion", qUltInscripcion);
+		
+		List<CursoCompuestoDTO> cursos=(List<CursoCompuestoDTO>)q.list();
+		s.getTransaction().commit();
+		return cursos;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<HorarioDTO> getHorarioAlumno(UsuarioDTO usuario) {
+		Session s=HbnConexion.getSessionFactory().getCurrentSession();
+		s.beginTransaction();
+		//Subquery separado
+		int qUltInscripcion=ultimaInscripcion(s,usuario);
+		//Query Principal
+		Query q=s.createQuery("SELECT h " +
+		"FROM HorarioDTO h JOIN h.cursoCompuestoDTO cc JOIN cc.detalleInscriCursoDTOs dic JOIN dic.inscripcionAlumnoDTO xi JOIN xi.alumnoDTO a JOIN a.usuarioDTO u " + 
+		"WHERE u.user=:usuario AND xi.idInscripcionAlumno=:nidInscripcion " +
+		"ORDER BY xi.inscripcionDTO.idInscripcion desc");
+		q.setParameter("usuario", usuario.getUser());
+		q.setParameter("nidInscripcion", qUltInscripcion);
+		
+		List<HorarioDTO> cursos=(List<HorarioDTO>)q.list();
+		s.getTransaction().commit();
+		return cursos;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<HorarioDTO> getHorarioPorCurso(UsuarioDTO usuario,CursoCompuestoDTO cc) {
+		Session s=HbnConexion.getSessionFactory().getCurrentSession();
+		s.beginTransaction();
+		//Query Principal
+		Query q=s.createQuery("SELECT h "+
+			"FROM HorarioDTO h JOIN h.cursoCompuestoDTO cc "+
+			"WHERE cc.idCursoCompuesto=:qidCursoCompuesto");
+		q.setParameter("qidCursoCompuesto", cc.getIdCursoCompuesto());
+		
+		List<HorarioDTO> cursos=(List<HorarioDTO>)q.list();
+		s.getTransaction().commit();
+		return cursos;
+	}
+	
+	private int inscripcionDelCicloAnterior(Session s, UsuarioDTO usuario){
 		
 		int result=0;
 		Query qUltimaInscripcion=s.createQuery("Select xi.idInscripcionAlumno " +
-				"FROM InscripcionAlumnoDTO xi JOIN xi.alumnoDTO a JOIN a.usuarioDTO u " +
-				"WHERE u.user=:usuario ORDER BY xi.idInscripcionAlumno desc");
+				"FROM InscripcionDTO ig,InscripcionAlumnoDTO xi JOIN xi.alumnoDTO a JOIN a.usuarioDTO u " +
+				"WHERE u.user=:usuario AND xi.inscripcionDTO.idInscripcion=ig.idInscripcion-1 " +
+				"ORDER BY xi.inscripcionDTO.idInscripcion desc");
 		qUltimaInscripcion.setParameter("usuario", usuario.getUser());
 		qUltimaInscripcion.setMaxResults(1);
 		result=(int)qUltimaInscripcion.uniqueResult();
 		return result;
 	}
-
+	
+	private int ultimaInscripcion(Session s, UsuarioDTO usuario){
+		
+		int result=0;
+		Query qUltimaInscripcion=s.createQuery("select xi.idInscripcionAlumno " +
+				"FROM InscripcionDTO ig JOIN ig.inscripcionAlumnoDTOs xi JOIN xi.alumnoDTO a JOIN a.usuarioDTO u " +
+				"WHERE u.user=:usuario " +
+				"ORDER BY xi.inscripcionDTO.idInscripcion desc");
+		qUltimaInscripcion.setParameter("usuario", usuario.getUser()); 
+		qUltimaInscripcion.setMaxResults(1);
+		result=(int)qUltimaInscripcion.uniqueResult();
+		return result;
+	}
 }

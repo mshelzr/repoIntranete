@@ -17,11 +17,11 @@
         <property name="descHorario" type="string">
             <column name="descHorario" length="45" />
         </property>
-        <property name="horaIniciio" type="string">
-            <column name="hora_iniciio" length="8" />
+        <property name="horaIniciio">
+            <column name="hora_iniciio" />
         </property>
-        <property name="horaFin" type="string">
-            <column name="hora_fin" length="8" />
+        <property name="horaFin">
+            <column name="hora_fin" />
         </property>
     </class>
 </hibernate-mapping>

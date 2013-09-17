@@ -1,5 +1,7 @@
 package com.intranet.bean;
 
+import java.util.Date;
+
 // Generated 14-sep-2013 7:16:37 by Hibernate Tools 4.0.0
 
 /**
@@ -11,8 +13,8 @@ public class HorarioDTO implements java.io.Serializable {
 	private AulaDTO aulaDTO;
 	private CursoCompuestoDTO cursoCompuestoDTO;
 	private String descHorario;
-	private String horaIniciio;
-	private String horaFin;
+	private Date horaIniciio;
+	private Date horaFin;
 
 	public HorarioDTO() {
 	}
@@ -23,7 +25,7 @@ public class HorarioDTO implements java.io.Serializable {
 	}
 
 	public HorarioDTO(AulaDTO aulaDTO, CursoCompuestoDTO cursoCompuestoDTO,
-			String descHorario, String horaIniciio, String horaFin) {
+			String descHorario, Date horaIniciio, Date horaFin) {
 		this.aulaDTO = aulaDTO;
 		this.cursoCompuestoDTO = cursoCompuestoDTO;
 		this.descHorario = descHorario;
@@ -63,19 +65,19 @@ public class HorarioDTO implements java.io.Serializable {
 		this.descHorario = descHorario;
 	}
 
-	public String getHoraIniciio() {
+	public Date getHoraIniciio() {
 		return this.horaIniciio;
 	}
 
-	public void setHoraIniciio(String horaIniciio) {
+	public void setHoraIniciio(Date horaIniciio) {
 		this.horaIniciio = horaIniciio;
 	}
 
-	public String getHoraFin() {
+	public Date getHoraFin() {
 		return this.horaFin;
 	}
 
-	public void setHoraFin(String horaFin) {
+	public void setHoraFin(Date horaFin) {
 		this.horaFin = horaFin;
 	}
 

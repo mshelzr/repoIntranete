@@ -6,26 +6,21 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-<title>Inscripcion</title>
-</h:head>	
+	<title>Inscripcion</title>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> 
+</h:head>
 <h:body>
-	<h:form>
+<h:form>
 	<p:outputLabel value="Inscripcion" ></p:outputLabel>
 	<br/>
-	<p:selectManyCheckbox layout="pageDirection">
-		<f:selectItems var="curso" value="#{inscripcionAction.cursosJalados}" itemLabel="#{curso.descCurso}" itemValue="#{curso.idCurso}" />	
-	</p:selectManyCheckbox>
-	<p:separator/>
-		
-	<br/>
-	<p:selectManyCheckbox layout="pageDirection">
-		<f:selectItems var="curso" value="#{inscripcionAction.cursosFaltantesPorLlevar}" itemLabel="#{curso.descCurso}" itemValue="#{curso.idCurso}" />	
-	</p:selectManyCheckbox>
-	<p:separator/>
-		<br/>
-	<p:selectManyCheckbox layout="pageDirection">
-		<f:selectItems var="curso" value="#{inscripcionAction.cursosDelSigtCiclo}" itemLabel="#{curso.descCurso}" itemValue="#{curso.idCurso}" />	
-	</p:selectManyCheckbox>
-	</h:form>
+	<p:dataList value="#{inscripcionAction.cursosDelSigtCiclo}" var="cJalados">
+		#{cJalados.cursoDTO.descCurso}
+		<p:commandButton value="Aux" actionListener="#{inscripcionAction.executeDialog}">
+		<f:attribute name="pcurso" value="#{cJalados.idCursoCompuesto}"></f:attribute>
+		</p:commandButton>
+	</p:dataList>
+
+	
+</h:form>
 </h:body>
 </html>
