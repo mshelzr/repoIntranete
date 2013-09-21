@@ -10,17 +10,23 @@
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> 
 </h:head>
 <h:body>
-<h:form>
-	<p:outputLabel value="Inscripcion" ></p:outputLabel>
-	<br/>
-	<p:dataList value="#{inscripcionAction.cursosDelSigtCiclo}" var="cJalados">
+<h:form id="form">
+		<p:dataList id="jalados" value="#{inscripcionAction.cursosJalados}" var="cJalados" rendered="#{not empty inscripcionAction.cursosJalados}">
 		#{cJalados.cursoDTO.descCurso}
-		<p:commandButton value="Aux" actionListener="#{inscripcionAction.executeDialog}">
-		<f:attribute name="pcurso" value="#{cJalados.idCursoCompuesto}"></f:attribute>
-		</p:commandButton>
-	</p:dataList>
+			<p:dataList value="#{inscripcionAction.cursosJaladosDetalle}" var="cJaladosDetalle">
+			#{cJaladosDetalle.seccionDTO.descSeccion}		
+			<p:commandButton value="ADD" actionListener="#{inscripcionAction.executeDialog}"  style="font-size:8px">
+				<f:attribute name="pcurso" value="#{cJaladosDetalle.idCursoCompuesto}" />
+			</p:commandButton>
+			</p:dataList>
+		</p:dataList>
 
-	
-</h:form>
+		<p:dataList id="matriculados" value="#{inscripcionAction.cursosMatriculados}" var="cMatriculados" >
+			<p:column>
+				<p:commandLink value="REMOVE" action="#{inscripcionAction.remove(cMatriculados)}" update=":form" style="font-size:8px" />
+			</p:column>
+		</p:dataList>
+				
+	</h:form>
 </h:body>
 </html>

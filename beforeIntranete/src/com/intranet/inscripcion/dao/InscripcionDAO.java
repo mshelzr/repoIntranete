@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.intranet.bean.CursoCompuestoDTO;
+import com.intranet.bean.DetalleInscriCursoDTO;
 import com.intranet.bean.HorarioDTO;
 import com.intranet.bean.UsuarioDTO;
 import com.intranet.util.HbnConexion;
@@ -44,10 +45,10 @@ public class InscripcionDAO {
 							"JOIN c.detalleCursoCarreraCicloDTOs dcc JOIN dcc.cursoDTO cu JOIN cu.cursoCompuestoDTOs cc " +
 							"WHERE cu.idCurso NOT IN (SELECT xcc.cursoDTO.idCurso FROM InscripcionAlumnoDTO xi " +
 								"JOIN xi.detalleInscriCursoDTOs xdic JOIN xdic.cursoCompuestoDTO xcc JOIN xcc.cursoDTO xcu JOIN xcu.detalleCursoCarreraCicloDTOs xdcc " +
-								"WHERE xi.idInscripcionAlumno=:qidInscripcion-1 and xdcc.carreraDTO.idCarrera=c.idCarrera and xdcc.cicloDTO.idCiclo=i.cicloDTO.idCiclo-1)" +  
+								"WHERE xi.idInscripcionAlumno=:qidInscripcion-1 and xdcc.carreraDTO.idCarrera=c.idCarrera and xdcc.cicloDTO.idCiclo=i.cicloDTO.idCiclo-1) " +  
 							"AND cu.categoriaCursoDTO.idCategoriaCurso NOT IN (SELECT xcu.categoriaCursoDTO.idCategoriaCurso " +
 								"FROM InscripcionAlumnoDTO xi JOIN xi.detalleInscriCursoDTOs dic JOIN dic.cursoCompuestoDTO xcc JOIN xcc.cursoDTO xcu " +
-								"WHERE xi.idInscripcionAlumno=:qidInscripcion and dic.promedioC<12.5 and xi.cicloDTO.idCiclo=i.cicloDTO.idCiclo)" +
+								"WHERE xi.idInscripcionAlumno=:qidInscripcion and dic.promedioC<12.5 and xi.cicloDTO.idCiclo=i.cicloDTO.idCiclo) " +
 							"AND cu.idCurso NOT IN (SELECT xcc.cursoDTO.idCurso " +
 								"FROM InscripcionAlumnoDTO xi JOIN xi.detalleInscriCursoDTOs xdic JOIN xdic.cursoCompuestoDTO xcc " +
 								"WHERE xi.idInscripcionAlumno=:qidInscripcion and xi.cicloDTO.idCiclo=i.cicloDTO.idCiclo) " +
@@ -193,7 +194,7 @@ public class InscripcionDAO {
 		return cursos;
 	}
 	
-	private int inscripcionDelCicloAnterior(Session s, UsuarioDTO usuario){
+	public int inscripcionDelCicloAnterior(Session s, UsuarioDTO usuario){
 		
 		int result=0;
 		Query qUltimaInscripcion=s.createQuery("Select xi.idInscripcionAlumno " +
@@ -206,16 +207,66 @@ public class InscripcionDAO {
 		return result;
 	}
 	
-	private int ultimaInscripcion(Session s, UsuarioDTO usuario){
+	public int ultimaInscripcion(Session s, UsuarioDTO usuario){
+		int esNulo=0;
 		
-		int result=0;
+		if(s==null){
+			esNulo=1;
+			s=HbnConexion.getSessionFactory().getCurrentSession();
+			s.beginTransaction();
+		}
+		
+		int result=-1;
+		Query qtopPeriodo=s.createQuery("select p.idPeriodo " +
+				"FROM PeriodoDTO p " +
+				"ORDER BY p.idPeriodo desc"); 
+		qtopPeriodo.setMaxResults(1);
+		int topPeriodo=(int)qtopPeriodo.uniqueResult();
+		
 		Query qUltimaInscripcion=s.createQuery("select xi.idInscripcionAlumno " +
-				"FROM InscripcionDTO ig JOIN ig.inscripcionAlumnoDTOs xi JOIN xi.alumnoDTO a JOIN a.usuarioDTO u " +
-				"WHERE u.user=:usuario " +
-				"ORDER BY xi.inscripcionDTO.idInscripcion desc");
+				"FROM PeriodoDTO p JOIN p.inscripcionDTOs ig JOIN ig.inscripcionAlumnoDTOs xi JOIN xi.alumnoDTO a JOIN a.usuarioDTO u " +
+				"WHERE u.user=:usuario AND p.idPeriodo=:qidPeriodo " +
+				"ORDER BY xi.idInscripcionAlumno desc");
 		qUltimaInscripcion.setParameter("usuario", usuario.getUser()); 
+		qUltimaInscripcion.setParameter("qidPeriodo",topPeriodo );
 		qUltimaInscripcion.setMaxResults(1);
-		result=(int)qUltimaInscripcion.uniqueResult();
+		
+		try {
+			result=(int)qUltimaInscripcion.uniqueResult();	
+			if(esNulo==1){			
+				s.getTransaction().commit();
+			}
+		} catch (NullPointerException n) {
+			result=0;
+		}
+
 		return result;
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<CursoCompuestoDTO> getCursoCompuestoPorCurso(List<Integer> cursosJalados) {
+		Session s=HbnConexion.getSessionFactory().getCurrentSession();
+		s.beginTransaction();
+		Query q=s.createQuery("SELECT cc FROM CursoCompuestoDTO cc JOIN cc.cursoDTO c WHERE c.idCurso IN (:ArrayidCurso)");
+		q.setParameterList("ArrayidCurso", cursosJalados);
+		List<CursoCompuestoDTO> innerCc=(List<CursoCompuestoDTO>)q.list();
+		s.getTransaction().commit();
+		return innerCc;
+	}
+	
+	public void add(DetalleInscriCursoDTO dic){
+		Session s=HbnConexion.getSessionFactory().getCurrentSession();
+		s.beginTransaction();
+		s.persist(dic);
+		s.getTransaction().commit();
+	}
+	
+	public void remove(DetalleInscriCursoDTO dic){
+		Session s=HbnConexion.getSessionFactory().getCurrentSession();
+		s.beginTransaction();
+		s.delete(dic);
+		s.getTransaction().commit();
+	}
+	
+	
 }

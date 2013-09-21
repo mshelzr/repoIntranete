@@ -14,7 +14,7 @@
         <many-to-one name="cursoDTO" class="com.intranet.bean.CursoDTO" lazy="false" fetch="join">
             <column name="idCurso" not-null="true" />
         </many-to-one>
-        <many-to-one name="seccionDTO" class="com.intranet.bean.SeccionDTO" fetch="select">
+        <many-to-one name="seccionDTO" class="com.intranet.bean.SeccionDTO" lazy="false">
             <column name="idSeccion" not-null="true" />
         </many-to-one>
         <many-to-one name="periodoDTO" class="com.intranet.bean.PeriodoDTO" fetch="select">
